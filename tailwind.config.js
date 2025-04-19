@@ -3,24 +3,29 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        // Light theme colors
-        light: {
-          text: "#11181C",
-          background: "#fff",
-          tint: "#0a7ea4",
-          icon: "#687076",
-          "tab-icon-default": "#687076",
-          "tab-icon-selected": "#0a7ea4",
+        // Backgrounds & Surfaces
+        background: "#111119",
+        surface: "#1A1A24",
+        "surface-hover": "#242430",
+        border: "#303040",
+
+        // Text & Content
+        primary: "#F0F0F5",
+        econdary: "#A0A0B8",
+        tertiary: "#6B6B80",
+
+        // Accent Colors
+        accent: {
+          primary: "#7B61FF",
+          hover: "#9D8BFF",
+          pressed: "#5C4AE0",
+          subtle: "#2A2640",
         },
-        // Dark theme colors
-        dark: {
-          text: "#ECEDEE",
-          background: "#151718",
-          tint: "#fff",
-          icon: "#9BA1A6",
-          "tab-icon-default": "#9BA1A6",
-          "tab-icon-selected": "#fff",
-        },
+
+        // Functional Colors
+        success: "#10B981",
+        warning: "#FBBF24",
+        error: "#EF4444",
       },
     },
   },
