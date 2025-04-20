@@ -8,8 +8,8 @@ export default function RootLayout() {
       <Stack
         screenOptions={{
           headerStyle: tw`bg-background`,
-          headerTintColor: tw.color("text-primary"),
-          headerTitleStyle: tw`text-primary`,
+          headerTitle: "Home",
+          headerLargeTitle: true,
           contentStyle: tw`bg-background`,
         }}
       />
