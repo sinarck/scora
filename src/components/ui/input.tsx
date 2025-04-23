@@ -12,9 +12,11 @@ const Input = React.forwardRef<TextInput, InputProps>(
       <TextInput
         ref={ref}
         style={[
-          tw`h-12 w-full px-3 rounded-md border bg-background`,
+          tw`h-12 w-full px-4 bg-background rounded-lg border border-neutral-800`,
+          tw`text-base text-gray-100`,
           className,
         ]}
+        placeholderTextColor={tw.color("gray-500")}
         textAlignVertical="center"
         {...props}
       />

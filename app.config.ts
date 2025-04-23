@@ -39,6 +39,20 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: "e60c5ae1-c77b-4403-86dd-6cd08378db7e",
     },
   },
-  plugins: ["expo-quick-actions", "expo-font"],
+  plugins: [
+    "expo-quick-actions",
+    [
+      "expo-font",
+      {
+        fonts: [
+          "./assets/fonts/Satoshi-Light.otf",
+          "./assets/fonts/Satoshi-Regular.otf",
+          "./assets/fonts/Satoshi-Medium.otf",
+          "./assets/fonts/Satoshi-Bold.otf",
+          "./assets/fonts/Satoshi-Black.otf",
+        ],
+      },
+    ],
+  ],
 });
 

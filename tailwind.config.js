@@ -2,6 +2,13 @@ module.exports = {
   content: ["./app/**/*.{js,jsx,ts,tsx}", "./components/**/*.{js,jsx,ts,tsx}"],
   theme: {
     extend: {
+      fontFamily: {
+        sans: ["Satoshi-Regular"],
+        light: ["Satoshi-Light"],
+        medium: ["Satoshi-Medium"],
+        bold: ["Satoshi-Bold"],
+        black: ["Satoshi-Black"],
+      },
       colors: {
         // Backgrounds & Surfaces
         background: "#161618",

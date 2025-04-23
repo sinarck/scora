@@ -1,88 +1,124 @@
-import React from "react";
-import { Pressable, StyleProp, Text, TextStyle, ViewStyle } from "react-native";
-import tw from "../../lib/tw";
-import { cn } from "../../lib/utils";
+import { useHaptics } from "@/hooks/useHaptics";
+import tw from "@/lib/tw";
+import { ComponentProps, useCallback, useRef } from "react";
+import {
+  Animated,
+  GestureResponderEvent,
+  Platform,
+  Pressable,
+  StyleProp,
+  Text,
+  ViewStyle,
+} from "react-native";
 
-export interface ButtonProps extends React.ComponentProps<typeof Pressable> {
-  variant?:
-    | "default"
-    | "destructive"
-    | "outline"
-    | "secondary"
-    | "ghost"
-    | "link";
-  size?: "default" | "sm" | "lg" | "icon";
-  style?: StyleProp<ViewStyle>;
-  textStyle?: StyleProp<TextStyle>;
+interface ButtonProps extends Omit<ComponentProps<typeof Pressable>, "style"> {
+  variant?: "default" | "destructive" | "outline" | "ghost";
+  size?: "default" | "sm" | "lg";
   children: React.ReactNode;
+  style?: Animated.WithAnimatedValue<StyleProp<ViewStyle>>;
 }
 
-const Button = React.forwardRef<
-  React.ElementRef<typeof Pressable>,
-  ButtonProps
->(
-  (
-    {
-      variant = "default",
-      size = "default",
-      style,
-      textStyle,
-      children,
-      ...props
+const Button = ({
+  variant = "default",
+  size = "default",
+  children,
+  onPress,
+  style,
+  ...props
+}: ButtonProps) => {
+  const hapticFeedback = useHaptics("medium");
+  const scaleAnim = useRef(new Animated.Value(1)).current;
+
+  const handlePressIn = useCallback(() => {
+    Animated.spring(scaleAnim, {
+      toValue: 0.97,
+      useNativeDriver: true,
+      damping: 15,
+      mass: 0.8,
+    }).start();
+  }, [scaleAnim]);
+
+  const handlePressOut = useCallback(() => {
+    Animated.spring(scaleAnim, {
+      toValue: 1,
+      useNativeDriver: true,
+      damping: 15,
+      mass: 0.8,
+    }).start();
+  }, [scaleAnim]);
+
+  const handlePress = useCallback(
+    (e: GestureResponderEvent) => {
+      e?.persist?.();
+      hapticFeedback().then(() => {
+        onPress?.(e);
+      });
     },
-    ref
-  ) => {
-    const getButtonStyles = (): StyleProp<ViewStyle> => {
-      const baseStyles = tw`flex-row items-center justify-center rounded-md`;
-      const variantStyles = {
-        default: tw`bg-primary`,
-        destructive: tw`bg-destructive`,
-        outline: tw`border border-input bg-background`,
-        secondary: tw`bg-secondary`,
-        ghost: tw`bg-transparent`,
-        link: tw`bg-transparent`,
-      };
-      const sizeStyles = {
-        default: tw`h-10 px-4`,
-        sm: tw`h-9 px-3`,
-        lg: tw`h-11 px-8`,
-        icon: tw`h-10 w-10`,
-      };
+    [hapticFeedback, onPress]
+  );
 
-      return cn(baseStyles, variantStyles[variant], sizeStyles[size], style);
-    };
+  const variantStyles = {
+    default: tw`bg-accent ${Platform.OS === "ios" ? "shadow-lg" : ""}`,
+    destructive: tw`bg-destructive ${Platform.OS === "ios" ? "shadow-lg" : ""}`,
+    outline: tw`border border-border bg-surface/80`,
+    ghost: tw`bg-transparent`,
+  };
 
-    const getTextStyles = (): StyleProp<TextStyle> => {
-      const baseStyles = tw`text-sm font-medium`;
-      const variantStyles = {
-        default: tw`text-primary-foreground`,
-        destructive: tw`text-destructive-foreground`,
-        outline: tw`text-foreground`,
-        secondary: tw`text-secondary-foreground`,
-        ghost: tw`text-foreground`,
-        link: tw`text-primary`,
-      };
+  const sizeStyles = {
+    sm: tw`h-9 px-3`,
+    default: tw`h-12 px-4`,
+    lg: tw`h-14 px-6`,
+  };
 
-      return cn(baseStyles, variantStyles[variant], textStyle);
-    };
+  const textSizeStyles = {
+    sm: tw`text-sm`,
+    default: tw`text-base`,
+    lg: tw`text-lg`,
+  };
 
-    return (
+  return (
+    <Animated.View
+      style={[
+        tw`rounded-2xl overflow-hidden`,
+        { transform: [{ scale: scaleAnim }] },
+        style,
+      ]}
+    >
       <Pressable
-        ref={ref}
+        onPressIn={handlePressIn}
+        onPressOut={handlePressOut}
+        onPress={handlePress}
         style={({ pressed }) => [
-          getButtonStyles(),
-          pressed && tw`opacity-90`,
-          props.disabled && tw`opacity-50`,
+          tw`justify-center items-center rounded-2xl`,
+          variantStyles[variant],
+          sizeStyles[size],
+          variant === "default" && pressed && tw`bg-accent-pressed`,
+          variant === "destructive" && pressed && tw`bg-destructive/90`,
+          variant === "ghost" && pressed && tw`bg-surface/50`,
+          variant === "outline" && pressed && tw`bg-surface/90`,
+          Platform.OS === "android" && tw`elevation-2`,
         ]}
         {...props}
       >
-        <Text style={getTextStyles()}>{children}</Text>
+        {typeof children === "string" ? (
+          <Text
+            style={[
+              tw`font-medium text-center`,
+              textSizeStyles[size],
+              variant === "ghost" || variant === "outline"
+                ? tw`text-foreground`
+                : tw`text-primary-foreground`,
+            ]}
+          >
+            {children}
+          </Text>
+        ) : (
+          children
+        )}
       </Pressable>
-    );
-  }
-);
-
-Button.displayName = "Button";
+    </Animated.View>
+  );
+};
 
 export default Button;
 
