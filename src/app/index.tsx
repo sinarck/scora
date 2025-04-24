@@ -8,6 +8,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Input from "@/components/ui/input";
+import { useVerificationToken } from "@/lib/queries/auth";
 import tw from "@/lib/tw";
 import { FieldProps, LoginFormData } from "@/types/login";
 import loginSchema from "@/types/schema/login";
@@ -16,6 +17,8 @@ import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 
 export default function App() {
+  const { data: verificationToken } = useVerificationToken();
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -25,7 +28,7 @@ export default function App() {
   });
 
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data);
+    console.log(data, verificationToken);
     // Handle login logic here
   });
 
@@ -87,6 +90,7 @@ export default function App() {
               <Button
                 onPress={onSubmit}
                 style={tw`bg-indigo-500 h-12 rounded-lg`}
+                disabled={!verificationToken}
               >
                 <Text style={tw`text-base font-medium text-white`}>
                   Sign In
