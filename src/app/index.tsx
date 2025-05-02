@@ -12,7 +12,7 @@ import { Text, View, useWindowDimensions } from "react-native";
 export default function App() {
   const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   return (
-    <View style={tw`flex-1 bg-red-800~`}>
+    <View style={tw`flex-1`}>
       {/* Background gradient/blur */}
       <Canvas style={tw`absolute inset-0`}>
         <Fill>
@@ -34,7 +34,7 @@ export default function App() {
           Welcome to Acumen
         </Text>
         <Text style={tw`text-white text-base mt-2 opacity-70`}>
-          Your next-gen productivity app
+          A new way to track your grades
         </Text>
       </View>
     </View>

@@ -5,3 +5,4 @@ export function cn(
 ): StyleProp<ViewStyle> {
   return styles.filter(Boolean) as StyleProp<ViewStyle>;
 }
+

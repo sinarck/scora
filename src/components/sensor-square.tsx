@@ -20,7 +20,6 @@ import {
   useDerivedValue,
 } from "react-native-reanimated";
 
-// --- SensorSquare: Animated 3D square that reacts to device sensors ---
 const CanvasSize = {
   width: 500,
   height: 500,
@@ -91,7 +90,7 @@ export default function SensorSquare() {
   ]);
 
   // Helper: renders the rounded square, optionally with children (e.g. gradients)
-  const GoodOldSquare = useCallback(
+  const Square = useCallback(
     ({ children }: { children?: React.ReactNode }) => (
       <RoundedRect
         x={CanvasCenter.x - SquareSize / 2}
@@ -122,16 +121,16 @@ export default function SensorSquare() {
         <Group origin={CanvasCenter} transform={rTransform}>
           <Group>
             {/* The base square */}
-            <GoodOldSquare />
+            <Square />
             {/* Lighting gradient overlay */}
-            <GoodOldSquare>
+            <Square>
               <LinearGradient
                 start={vec(0, 0)}
                 end={vec(0, CanvasSize.height / 1.8)}
                 colors={["#2e2e2e", "#0e0e0e"]}
               />
               <Blur blur={10} />
-            </GoodOldSquare>
+            </Square>
             {/* Shadows for depth */}
             <Shadow color="#4c4c4c" inner blur={0} dx={0} dy={0.8} />
             <Shadow color="#000000" blur={3.5} dx={shadowDx} dy={shadowDy} />
