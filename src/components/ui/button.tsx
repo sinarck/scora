@@ -1,62 +1,62 @@
+import { useHaptics, type FeedbackType } from "@/hooks/useHaptics";
 import tw from "@/lib/tw";
+import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
-import { Pressable, PressableProps } from "react-native";
-import { Text } from "./text";
+import { Pressable, PressableProps, Text, ViewStyle } from "react-native";
 
-type ButtonVariant =
-  | "default"
-  | "destructive"
-  | "outline"
-  | "secondary"
-  | "ghost"
-  | "link";
-type ButtonSize = "default" | "sm" | "lg" | "icon";
+const buttonVariants = cva("flex items-center justify-center rounded-md", {
+  variants: {
+    variant: {
+      default: "bg-primary active:opacity-90",
+      destructive: "bg-destructive active:opacity-90",
+      outline: "border border-input bg-background active:bg-accent",
+      secondary: "bg-secondary active:opacity-80",
+      ghost: "active:bg-accent",
+      link: "",
+    },
+    size: {
+      default: "h-12 px-5 py-3",
+      sm: "h-9 rounded-md px-3",
+      lg: "h-14 px-8",
+      icon: "h-10 w-10",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+});
 
-interface ButtonProps extends PressableProps {
-  variant?: ButtonVariant;
-  size?: ButtonSize;
-  children: React.ReactNode;
+const buttonTextVariants = cva("text-base font-medium", {
+  variants: {
+    variant: {
+      default: "text-primary-foreground",
+      destructive: "text-destructive-foreground",
+      outline: "text-foreground",
+      secondary: "text-secondary-foreground",
+      ghost: "text-foreground",
+      link: "text-primary",
+    },
+    size: {
+      default: "",
+      sm: "text-sm",
+      lg: "text-lg",
+      icon: "",
+    },
+  },
+  defaultVariants: {
+    variant: "default",
+    size: "default",
+  },
+});
+
+interface ButtonProps
+  extends Omit<PressableProps, "style" | "onPress">,
+    VariantProps<typeof buttonVariants> {
+  style?: ViewStyle | ViewStyle[];
+  onPress?: PressableProps["onPress"];
+  hapticFeedback?: FeedbackType;
 }
-
-const getButtonStyles = (variant: ButtonVariant, size: ButtonSize) => {
-  const baseStyles = tw`flex items-center justify-center rounded-md`;
-  const variantStyles = {
-    default: tw`bg-primary active:opacity-90`,
-    destructive: tw`bg-destructive active:opacity-90`,
-    outline: tw`border border-input bg-background active:bg-accent`,
-    secondary: tw`bg-secondary active:opacity-80`,
-    ghost: tw`active:bg-accent`,
-    link: tw``,
-  };
-  const sizeStyles = {
-    default: tw`h-12 px-5 py-3`,
-    sm: tw`h-9 rounded-md px-3`,
-    lg: tw`h-14 px-8`,
-    icon: tw`h-10 w-10`,
-  };
-
-  return tw.style(baseStyles, variantStyles[variant], sizeStyles[size]);
-};
-
-const getTextStyles = (variant: ButtonVariant, size: ButtonSize) => {
-  const baseStyles = tw`text-base font-medium`;
-  const variantStyles = {
-    default: tw`text-primary-foreground`,
-    destructive: tw`text-destructive-foreground`,
-    outline: tw`text-foreground`,
-    secondary: tw`text-secondary-foreground`,
-    ghost: tw`text-foreground`,
-    link: tw`text-primary`,
-  };
-  const sizeStyles = {
-    default: tw``,
-    sm: tw`text-sm`,
-    lg: tw`text-lg`,
-    icon: tw``,
-  };
-
-  return tw.style(baseStyles, variantStyles[variant], sizeStyles[size]);
-};
 
 export const Button = React.forwardRef<
   React.ElementRef<typeof Pressable>,
@@ -64,27 +64,45 @@ export const Button = React.forwardRef<
 >(
   (
     {
-      className,
-      variant = "default",
-      size = "default",
+      variant,
+      size,
       children,
       disabled,
+      style,
+      onPress,
+      hapticFeedback,
       ...props
     },
     ref
   ) => {
-    const buttonStyles = getButtonStyles(variant, size);
-    const textStyles = getTextStyles(variant, size);
+    const triggerHaptics = useHaptics(hapticFeedback);
+
+    const handlePress = React.useCallback(
+      (e: any) => {
+        if (hapticFeedback) {
+          triggerHaptics();
+        }
+        onPress?.(e);
+      },
+      [hapticFeedback, triggerHaptics, onPress]
+    );
 
     return (
       <Pressable
         ref={ref}
-        style={[buttonStyles, disabled && tw`opacity-50`, className]}
+        style={[
+          tw.style(buttonVariants({ variant, size })),
+          disabled && tw`opacity-50`,
+          style,
+        ]}
         disabled={disabled}
+        onPress={handlePress}
         {...props}
       >
         {typeof children === "string" ? (
-          <Text style={textStyles}>{children}</Text>
+          <Text style={tw.style(buttonTextVariants({ variant, size }))}>
+            {children}
+          </Text>
         ) : (
           children
         )}

@@ -1,7 +1,7 @@
 import * as Haptics from "expo-haptics";
 import { useMemo } from "react";
 
-type FeedbackType =
+export type FeedbackType =
   | "light"
   | "medium"
   | "heavy"

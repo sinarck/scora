@@ -1,4 +1,5 @@
 import SensorSquare from "@/components/sensor-square";
+import { Button } from "@/components/ui/button";
 import tw from "@/lib/tw";
 import {
   Blur,
@@ -36,6 +37,9 @@ export default function App() {
         <Text style={tw`text-white text-base mt-2 opacity-70`}>
           A new way to track your grades
         </Text>
+        <Button variant="outline" style={tw`mt-4 w-60`} hapticFeedback="light">
+          Get started
+        </Button>
       </View>
     </View>
   );
