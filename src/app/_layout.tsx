@@ -1,4 +1,4 @@
-import { queryClient } from "@/lib/queries/client";
+import { queryClient } from "@/lib/client";
 import tw from "@/lib/tw";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
@@ -15,11 +15,7 @@ export default function RootLayout() {
         <View style={tw`flex-1 font-sans`}>
           <Stack
             screenOptions={{
-              headerStyle: tw`bg-background`,
-              headerTitleStyle: tw`font-medium text-foreground`,
-              headerTitle: "Home",
-              headerLargeTitle: true,
-              contentStyle: tw`bg-background`,
+              headerShown: false,
             }}
           />
         </View>

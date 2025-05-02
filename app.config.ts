@@ -12,7 +12,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   splash: {
     image: "./assets/images/splash.png",
     resizeMode: "contain",
-    backgroundColor: "#161618",
+    backgroundColor: "#1E1E1F",
   },
   assetBundlePatterns: ["**/*"],
   ios: {
@@ -26,7 +26,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   android: {
     adaptiveIcon: {
       foregroundImage: "./assets/images/adaptive-icon.png",
-      backgroundColor: "#161618",
+      backgroundColor: "#1E1E1F",
     },
     userInterfaceStyle: "dark",
     package: "org.acumen.app",
@@ -41,6 +41,15 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   plugins: [
     "expo-quick-actions",
+    "react-native-bottom-tabs",
+    [
+      "expo-build-properties",
+      {
+        ios: {
+          useFrameworks: "static",
+        },
+      },
+    ],
     [
       "expo-font",
       {

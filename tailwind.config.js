@@ -11,7 +11,7 @@ module.exports = {
       },
       colors: {
         // Backgrounds & Surfaces
-        background: "#161618",
+        background: "#1E1E1F",
         surface: "#1A1A24",
         "surface-hover": "#242430",
         border: "#303040",
