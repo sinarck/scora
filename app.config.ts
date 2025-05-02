@@ -39,6 +39,9 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       projectId: "e60c5ae1-c77b-4403-86dd-6cd08378db7e",
     },
   },
+  experiments: {
+    typedRoutes: true,
+  },
   plugins: [
     "expo-quick-actions",
     "react-native-bottom-tabs",

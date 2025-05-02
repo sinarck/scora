@@ -8,6 +8,7 @@ import {
   RadialGradient,
   vec,
 } from "@shopify/react-native-skia";
+import { router } from "expo-router";
 import { Text, View, useWindowDimensions } from "react-native";
 
 export default function App() {
@@ -30,14 +31,22 @@ export default function App() {
       <View style={tw`flex-1 justify-center items-center`}>
         {/* Animated sensor square */}
         <SensorSquare />
+
         {/* You can add more welcome screen content here, e.g. title, subtitle, buttons */}
         <Text style={tw`text-white text-2xl mt-8 font-bold`}>
           Welcome to Acumen
         </Text>
+
         <Text style={tw`text-white text-base mt-2 opacity-70`}>
           A new way to track your grades
         </Text>
-        <Button variant="outline" style={tw`mt-4 w-60`} hapticFeedback="light">
+
+        <Button
+          variant="outline"
+          style={tw`mt-4 w-60`}
+          hapticFeedback="light"
+          onPress={() => router.push("/notif/page")}
+        >
           Get started
         </Button>
       </View>
