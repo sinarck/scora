@@ -3,13 +3,18 @@ import tw from "@/lib/tw";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { SplashScreen, Stack } from "expo-router";
+import { Stack } from "expo-router";
+import * as SplashScreen from "expo-splash-screen";
 import { PostHogProvider } from "posthog-react-native";
 import { useEffect } from "react";
-
 import { View } from "react-native";
 
 SplashScreen.preventAutoHideAsync();
+
+SplashScreen.setOptions({
+  duration: 1000,
+  fade: true,
+});
 
 export default function RootLayout() {
   useReactQueryDevTools(queryClient);
