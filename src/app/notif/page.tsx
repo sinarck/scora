@@ -16,9 +16,9 @@ async function sendPushNotification(expoPushToken: string) {
   const message = {
     to: expoPushToken,
     sound: "default",
-    title: "Original Title",
-    body: "And here is the body!",
-    data: { someData: "goes here" },
+    title: "Grade Updated",
+    body: "Unit 8 AOL - AP Calculus AB",
+    data: { url: "/notif/page" },
   };
 
   await fetch("https://exp.host/--/api/v2/push/send", {

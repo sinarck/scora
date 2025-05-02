@@ -1,3 +1,4 @@
+import useObserver from "@/hooks/useObserver";
 import { queryClient } from "@/lib/client";
 import tw from "@/lib/tw";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
@@ -18,6 +19,7 @@ SplashScreen.setOptions({
 
 export default function RootLayout() {
   useReactQueryDevTools(queryClient);
+  useObserver();
 
   const [loaded, error] = useFonts({
     "Satoshi-Black": require("../../assets/fonts/Satoshi-Black.otf"),
