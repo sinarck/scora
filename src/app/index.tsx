@@ -8,16 +8,19 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import Input from "@/components/ui/input";
-import { useVerificationToken } from "@/lib/queries/auth";
+import { useLogin } from "@/lib/queries/auth";
 import tw from "@/lib/tw";
 import { FieldProps, LoginFormData } from "@/types/login";
 import loginSchema from "@/types/schema/login";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { AxiosInstance } from "axios";
+import { useRouter } from "expo-router";
 import { useForm } from "react-hook-form";
 import { Text, View } from "react-native";
 
 export default function App() {
-  const { data: verificationToken } = useVerificationToken();
+  const router = useRouter();
+  const { mutate: login, isPending } = useLogin();
 
   const form = useForm<LoginFormData>({
     resolver: zodResolver(loginSchema),
@@ -28,8 +31,13 @@ export default function App() {
   });
 
   const onSubmit = form.handleSubmit((data) => {
-    console.log(data, verificationToken);
-    // Handle login logic here
+    login(data, {
+      onSuccess: (session: AxiosInstance | undefined) => {
+        if (session) {
+          router.push("/dashboard");
+        }
+      },
+    });
   });
 
   return (
@@ -90,10 +98,10 @@ export default function App() {
               <Button
                 onPress={onSubmit}
                 style={tw`bg-indigo-500 h-12 rounded-lg`}
-                disabled={!verificationToken}
+                disabled={isPending}
               >
                 <Text style={tw`text-base font-medium text-white`}>
-                  Sign In
+                  {isPending ? "Signing in..." : "Sign In"}
                 </Text>
               </Button>
             </View>

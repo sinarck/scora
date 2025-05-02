@@ -1,11 +1,10 @@
+import { queryClient } from "@/lib/queries/client";
 import tw from "@/lib/tw";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { PostHogProvider } from "posthog-react-native";
 import { View } from "react-native";
-
-const queryClient = new QueryClient();
 
 export default function RootLayout() {
   useReactQueryDevTools(queryClient);
