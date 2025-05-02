@@ -1,114 +1,158 @@
-import Button from "@/components/ui/button";
 import {
-  Form,
-  FormControl,
-  FormField,
-  FormItem,
-  FormLabel,
-  FormMessage,
-} from "@/components/ui/form";
-import Input from "@/components/ui/input";
-import { useLogin } from "@/lib/queries/auth";
-import tw from "@/lib/tw";
-import { FieldProps, LoginFormData } from "@/types/login";
-import loginSchema from "@/types/schema/login";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { AxiosInstance } from "axios";
-import { useRouter } from "expo-router";
-import { useForm } from "react-hook-form";
-import { Text, View } from "react-native";
+  Blur,
+  Canvas,
+  Fill,
+  Group,
+  LinearGradient,
+  RadialGradient,
+  RoundedRect,
+  Shadow,
+  vec,
+} from "@shopify/react-native-skia";
+import { useCallback } from "react";
+import { StyleSheet, View, useWindowDimensions } from "react-native";
+import {
+  Extrapolation,
+  SensorType,
+  interpolate,
+  useAnimatedSensor,
+  useDerivedValue,
+} from "react-native-reanimated";
 
-export default function App() {
-  const router = useRouter();
-  const { mutate: login, isPending } = useLogin();
+const CanvasSize = {
+  width: 500,
+  height: 500,
+};
 
-  const form = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema),
-    defaultValues: {
-      username: "",
-      password: "",
+const SquareSize = 200;
+
+const CanvasCenter = vec(CanvasSize.width / 2, CanvasSize.height / 2);
+
+const App = () => {
+  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
+
+  const deviceRotation = useAnimatedSensor(SensorType.ROTATION, {
+    interval: 20,
+  });
+
+  const rotationGravity = useAnimatedSensor(SensorType.GRAVITY, {
+    interval: 20,
+  });
+
+  const rotateY = useDerivedValue(() => {
+    const { roll } = deviceRotation.sensor.value;
+    return interpolate(
+      roll,
+      [-1, 0, 1],
+      [Math.PI / 8, 0, -Math.PI / 8],
+      Extrapolation.CLAMP
+    );
+  });
+
+  const rotateX = useDerivedValue(() => {
+    const { z } = rotationGravity.sensor.value;
+    return interpolate(
+      z,
+      [-9, -6, -1],
+      [-Math.PI / 8, 0, Math.PI / 8],
+      Extrapolation.CLAMP
+    );
+  });
+
+  const shadowDx = useDerivedValue(() => {
+    return interpolate(
+      rotateY.value,
+      [-Math.PI / 8, 0, Math.PI / 8],
+      [10, 0, -10],
+      Extrapolation.CLAMP
+    );
+  });
+
+  const shadowDy = useDerivedValue(() => {
+    return interpolate(
+      rotateX.value,
+      [-Math.PI / 8, 0, Math.PI / 8],
+      [7, 0, 10],
+      Extrapolation.CLAMP
+    );
+  });
+
+  const rTransform = useDerivedValue(() => {
+    return [
+      { perspective: 200 },
+      { rotateY: rotateY.value },
+      { rotateX: rotateX.value },
+    ];
+  });
+
+  const GoodOldSquare = useCallback(
+    ({ children }: { children?: React.ReactNode }) => {
+      return (
+        <RoundedRect
+          x={CanvasCenter.x - SquareSize / 2}
+          y={CanvasCenter.y - SquareSize / 2}
+          width={SquareSize}
+          height={SquareSize}
+          color="#101010"
+          r={35}
+        >
+          {children}
+        </RoundedRect>
+      );
     },
-  });
-
-  const onSubmit = form.handleSubmit((data) => {
-    login(data, {
-      onSuccess: (session: AxiosInstance | undefined) => {
-        if (session) {
-          router.push("/dashboard");
-        }
-      },
-    });
-  });
+    []
+  );
 
   return (
-    <View style={tw`flex-1 bg-black`}>
-      <View style={tw`flex-1 items-center justify-center px-6`}>
-        <View style={tw`w-full max-w-sm`}>
-          {/* Header */}
-          <View style={tw`mb-10`}>
-            <Text style={tw`text-4xl text-white mb-3`}>Welcome Back</Text>
-            <Text style={tw`text-lg text-gray-400`}>
-              Sign in to your account to continue
-            </Text>
-          </View>
-
-          <Form {...form}>
-            <View>
-              <FormField
-                control={form.control}
-                name="username"
-                render={({ field }: FieldProps<"username">) => (
-                  <FormItem>
-                    <FormLabel>Username</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your username"
-                        value={field.value}
-                        keyboardType="number-pad"
-                        onChangeText={field.onChange}
-                        onBlur={field.onBlur}
-                        autoCapitalize="none"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <FormField
-                control={form.control}
-                name="password"
-                render={({ field }: FieldProps<"password">) => (
-                  <FormItem>
-                    <FormLabel>Password</FormLabel>
-                    <FormControl>
-                      <Input
-                        placeholder="Enter your password"
-                        value={field.value}
-                        onChangeText={field.onChange}
-                        onBlur={field.onBlur}
-                        secureTextEntry
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-
-              <Button
-                onPress={onSubmit}
-                style={tw`bg-indigo-500 h-12 rounded-lg`}
-                disabled={isPending}
-              >
-                <Text style={tw`text-base font-medium text-white`}>
-                  {isPending ? "Signing in..." : "Sign In"}
-                </Text>
-              </Button>
-            </View>
-          </Form>
-        </View>
+    <View style={styles.fill}>
+      <Canvas style={StyleSheet.absoluteFill}>
+        <Fill>
+          <RadialGradient
+            c={vec(windowWidth / 2, windowHeight / 2)}
+            r={windowWidth / 1.5}
+            colors={["#252525", "#000000"]}
+          />
+          <Blur blur={50} />
+        </Fill>
+      </Canvas>
+      <View style={styles.container}>
+        <Canvas
+          style={{
+            height: CanvasSize.height,
+            width: CanvasSize.width,
+          }}
+        >
+          <Group origin={CanvasCenter} transform={rTransform}>
+            <Group>
+              <GoodOldSquare />
+              <GoodOldSquare>
+                <LinearGradient
+                  start={vec(0, 0)}
+                  end={vec(0, CanvasSize.height / 1.8)}
+                  colors={["#2e2e2e", "#0e0e0e"]}
+                />
+                <Blur blur={10} />
+              </GoodOldSquare>
+              <Shadow color="#4c4c4c" inner blur={0} dx={0} dy={0.8} />
+              <Shadow color="#000000" blur={3.5} dx={shadowDx} dy={shadowDy} />
+            </Group>
+          </Group>
+        </Canvas>
       </View>
     </View>
   );
-}
+};
+
+export default App;
+
+const styles = StyleSheet.create({
+  fill: {
+    flex: 1,
+  },
+  container: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+});
 
