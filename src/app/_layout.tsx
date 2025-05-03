@@ -9,6 +9,7 @@ import * as SplashScreen from "expo-splash-screen";
 import { PostHogProvider } from "posthog-react-native";
 import { useEffect } from "react";
 import { View } from "react-native";
+import { useDeviceContext } from "twrnc";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -20,6 +21,7 @@ SplashScreen.setOptions({
 export default function RootLayout() {
   useReactQueryDevTools(queryClient);
   useObserver();
+  useDeviceContext(tw);
 
   const [loaded, error] = useFonts({
     "Satoshi-Black": require("../../assets/fonts/Satoshi-Black.otf"),
