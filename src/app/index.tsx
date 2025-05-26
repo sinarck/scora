@@ -1,5 +1,5 @@
-import SensorSquare from "@/components/sensor-square";
 import { Button } from "@/components/ui/button";
+import { WelcomeText } from "@/components/welcome-text";
 import tw from "@/lib/tw";
 import {
   Blur,
@@ -62,31 +62,28 @@ export default function App() {
       </Canvas>
 
       {/* Welcome content */}
-      <View style={tw`flex-1 w-full justify-center items-center`}>
-        {/* Animated sensor square */}
-        <SensorSquare />
+      <View style={tw`flex-1 w-full`}>
+        {/* Main content area with animated text */}
+        <View style={tw`flex-1 justify-center px-8`}>
+          <WelcomeText />
+        </View>
 
-        <View style={tw`w-full px-10`}>
-          <Text
-            style={tw`text-primary dark:text-white text-2xl mt-8 font-bold text-center`}
-          >
-            Welcome to Acumen
-          </Text>
-
-          <Text
-            style={tw`dark:text-white text-base mt-2 opacity-70 text-center`}
-          >
-            A new way to track your grades
-          </Text>
-
+        {/* Bottom section with button */}
+        <View style={tw`px-8 pb-12`}>
           <Button
             variant="secondary"
-            style={tw`mt-4 w-full`}
+            style={tw`w-full`}
             hapticFeedback="light"
             onPress={() => router.replace("/sign-in")}
           >
-            Get started
+            <Text style={tw`text-secondary-foreground text-lg font-semibold`}>
+              Get Started
+            </Text>
           </Button>
+
+          <Text style={tw`text-white/50 text-sm text-center mt-3`}>
+            Connect with your school's grade portal
+          </Text>
         </View>
       </View>
     </View>
