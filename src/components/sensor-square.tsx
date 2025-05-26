@@ -31,6 +31,8 @@ const CanvasCenter = vec(CanvasSize.width / 2, CanvasSize.height / 2);
  * SensorSquare
  * Renders a 3D-animated square that rotates and casts shadows based on device sensors.
  * The logo is rendered in the center and moves with the square.
+ *
+ * TODO: fix clamping issues
  */
 export default function SensorSquare() {
   // Listen to device rotation (for Y axis)
