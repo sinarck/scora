@@ -29,7 +29,7 @@
     "expo": "~52.0.46",
     "expo-application": "~6.0.2",
     "expo-blur": "~14.0.3",
-    "expo-build-properties": "~0.13.2",
+    "expo-build-properties": "~0.13.3",
     "expo-constants": "~17.0.8",
     "expo-dev-client": "~5.0.20",
     "expo-device": "~7.0.3",
@@ -42,7 +42,7 @@
     "expo-localization": "~16.0.1",
     "expo-notifications": "~0.29.14",
     "expo-quick-actions": "^4.0.2",
-    "expo-router": "~4.0.20",
+    "expo-router": "~4.0.21",
     "expo-splash-screen": "~0.29.24",
     "expo-status-bar": "~2.0.1",
     "expo-store-review": "~8.0.1",
@@ -53,7 +53,7 @@
     "posthog-react-native-session-replay": "^1.0.5",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-hook-form": "^7.55.0",
+    "react-hook-form": "^7.56.3",
     "react-native": "0.76.9",
     "react-native-bottom-tabs": "^0.9.1",
     "react-native-context-menu-view": "^1.18.0",
@@ -88,3 +88,4 @@
   "private": true,
   "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e"
 }
+

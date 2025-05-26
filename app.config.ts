@@ -17,7 +17,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
-    userInterfaceStyle: "dark",
     bundleIdentifier: "org.acumen.app",
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
@@ -28,7 +27,6 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#1E1E1F",
     },
-    userInterfaceStyle: "dark",
     package: "org.acumen.app",
   },
   web: {
@@ -43,6 +41,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     typedRoutes: true,
   },
   plugins: [
+    "expo-router",
     "expo-quick-actions",
     "react-native-bottom-tabs",
     [
