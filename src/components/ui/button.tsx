@@ -3,6 +3,11 @@ import tw from "@/lib/tw";
 import { cva, type VariantProps } from "class-variance-authority";
 import React from "react";
 import { Pressable, PressableProps, Text, ViewStyle } from "react-native";
+import Animated, {
+  useAnimatedStyle,
+  useSharedValue,
+  withTiming,
+} from "react-native-reanimated";
 
 const buttonVariants = cva("flex items-center justify-center rounded-md", {
   variants: {
@@ -76,6 +81,7 @@ export const Button = React.forwardRef<
     ref
   ) => {
     const triggerHaptics = useHaptics(hapticFeedback);
+    const opacity = useSharedValue(1);
 
     const handlePress = React.useCallback(
       (e: any) => {
@@ -87,26 +93,42 @@ export const Button = React.forwardRef<
       [hapticFeedback, triggerHaptics, onPress]
     );
 
+    const handlePressIn = React.useCallback(() => {
+      opacity.value = withTiming(0.7, { duration: 100 });
+    }, [opacity]);
+
+    const handlePressOut = React.useCallback(() => {
+      opacity.value = withTiming(1, { duration: 100 });
+    }, [opacity]);
+
+    const animatedStyle = useAnimatedStyle(() => ({
+      opacity: opacity.value,
+    }));
+
     return (
-      <Pressable
-        ref={ref}
-        style={[
-          tw.style(buttonVariants({ variant, size })),
-          disabled && tw`opacity-50`,
-          style,
-        ]}
-        disabled={disabled}
-        onPress={handlePress}
-        {...props}
-      >
-        {typeof children === "string" ? (
-          <Text style={tw.style(buttonTextVariants({ variant, size }))}>
-            {children}
-          </Text>
-        ) : (
-          children
-        )}
-      </Pressable>
+      <Animated.View style={animatedStyle}>
+        <Pressable
+          ref={ref}
+          style={[
+            tw.style(buttonVariants({ variant, size })),
+            disabled && tw`opacity-50`,
+            style,
+          ]}
+          disabled={disabled}
+          onPress={handlePress}
+          onPressIn={handlePressIn}
+          onPressOut={handlePressOut}
+          {...props}
+        >
+          {typeof children === "string" ? (
+            <Text style={tw.style(buttonTextVariants({ variant, size }))}>
+              {children}
+            </Text>
+          ) : (
+            children
+          )}
+        </Pressable>
+      </Animated.View>
     );
   }
 );
