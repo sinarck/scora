@@ -1,20 +1,72 @@
 export interface WelcomeParagraph {
   text: string;
-  isTitle: boolean;
 }
+
+// Special word styling configuration
+export interface WordStyle {
+  word: string;
+  icon?: {
+    name: string;
+    library: "Ionicons" | "MaterialIcons" | "Feather";
+    color?: string;
+  };
+  appIcon?: boolean; // For rendering the app icon
+  style?: "highlight" | "accent" | "bold";
+}
+
+export const SPECIAL_WORDS: WordStyle[] = [
+  {
+    word: "Acumen",
+    appIcon: true,
+    style: "highlight",
+  },
+  {
+    word: "journey",
+    icon: {
+      name: "rocket",
+      library: "Ionicons",
+      color: "#f59e0b",
+    },
+    style: "accent",
+  },
+  {
+    word: "visualizations",
+    icon: {
+      name: "bar-chart",
+      library: "Ionicons",
+      color: "#06b6d4",
+    },
+    style: "accent",
+  },
+  {
+    word: "insights",
+    icon: {
+      name: "bulb",
+      library: "Ionicons",
+      color: "#8b5cf6",
+    },
+    style: "accent",
+  },
+  {
+    word: "achievements",
+    icon: {
+      name: "trophy",
+      library: "Ionicons",
+      color: "#eab308",
+    },
+    style: "accent",
+  },
+];
 
 export const WELCOME_PARAGRAPHS: WelcomeParagraph[] = [
   {
     text: "Welcome to Acumen",
-    isTitle: true,
   },
   {
-    text: "The most beautiful and intuitive way to track your academic journey. Transform how you see your grades, progress, and achievements.",
-    isTitle: false,
+    text: "The most beautiful and intuitive way to track your academic journey. See your grades, progress, and achievements like never before.",
   },
   {
-    text: "Experience education data like never before with elegant visualizations, smart insights, and seamless grade tracking.",
-    isTitle: false,
+    text: "Experience education data with elegant visualizations, powerful insights, and seamless tracking.",
   },
 ];
 
@@ -24,3 +76,4 @@ export const ANIMATION_CONFIG = {
   PARAGRAPH_GAP: 600, // gap between paragraphs
   TRANSLATE_Y_DISTANCE: 4, // pixels to move up during animation
 } as const;
+

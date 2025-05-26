@@ -1,6 +1,10 @@
 import { ANIMATION_CONFIG } from "@/config/welcome";
 import tw from "@/lib/tw";
+import { getWordStyle } from "@/lib/welcome-utils";
+import { Ionicons } from "@expo/vector-icons";
+import { Image } from "expo-image";
 import { useEffect } from "react";
+import { View } from "react-native";
 import Animated, {
   useAnimatedStyle,
   useSharedValue,
@@ -12,14 +16,12 @@ interface AnimatedWordProps {
   word: string;
   index: number;
   paragraphDelay: number;
-  isTitle: boolean;
 }
 
 export const AnimatedWord = ({
   word,
   index,
   paragraphDelay,
-  isTitle,
 }: AnimatedWordProps) => {
   const opacity = useSharedValue(0);
   const translateY = useSharedValue(
@@ -36,22 +38,72 @@ export const AnimatedWord = ({
       delay,
       withTiming(0, { duration: ANIMATION_CONFIG.ANIMATION_DURATION })
     );
-  }, [index, paragraphDelay]);
+  }, [index, paragraphDelay, opacity, translateY]);
 
   const animatedStyle = useAnimatedStyle(() => ({
     opacity: opacity.value,
     transform: [{ translateY: translateY.value }],
   }));
 
-  const isAcumen = word === "Acumen";
-  const textStyle = isTitle
-    ? isAcumen
-      ? tw`text-white text-4xl font-bold`
-      : tw`text-white text-4xl font-bold`
-    : tw`text-white/90 text-xl font-medium leading-relaxed`;
+  const wordStyle = getWordStyle(word);
+  const hasIcon = wordStyle?.icon || wordStyle?.appIcon;
 
+  // Get text styling based on word type
+  const getTextStyle = () => {
+    const baseStyle = tw`text-white/90 text-2xl font-medium leading-relaxed`;
+
+    if (!wordStyle) return baseStyle;
+
+    switch (wordStyle.style) {
+      case "highlight":
+        return [baseStyle, tw`text-white font-bold`];
+      case "accent":
+        return [baseStyle, tw`font-semibold`];
+      case "bold":
+        return [baseStyle, tw`font-bold`];
+      default:
+        return baseStyle;
+    }
+  };
+
+  if (hasIcon) {
+    return (
+      <Animated.View style={[tw`flex-row items-center mb-1`, animatedStyle]}>
+        {/* Icon or App Icon */}
+        {wordStyle?.appIcon ? (
+          <View
+            style={[
+              tw`w-8 h-8 rounded-lg mr-2 items-center justify-center shadow-lg`,
+              { backgroundColor: "#1E1E1F" },
+            ]}
+          >
+            <Image
+              source={require("../../assets/images/icon.png")}
+              style={tw`w-6 h-6`}
+              contentFit="contain"
+            />
+          </View>
+        ) : wordStyle?.icon ? (
+          <View style={tw`mr-2`}>
+            <Ionicons
+              name={wordStyle.icon.name as any}
+              size={20}
+              color={wordStyle.icon.color || "#ffffff"}
+            />
+          </View>
+        ) : null}
+
+        {/* Word Text */}
+        <Animated.Text style={[getTextStyle()]}>{word}</Animated.Text>
+      </Animated.View>
+    );
+  }
+
+  // Regular word without icon
   return (
-    <Animated.Text style={[textStyle, animatedStyle]}>{word} </Animated.Text>
+    <Animated.Text style={[getTextStyle(), animatedStyle]}>
+      {word}
+    </Animated.Text>
   );
 };
 
