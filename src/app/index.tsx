@@ -62,27 +62,32 @@ export default function App() {
       </Canvas>
 
       {/* Welcome content */}
-      <View style={tw`flex-1 justify-center items-center`}>
+      <View style={tw`flex-1 w-full justify-center items-center`}>
         {/* Animated sensor square */}
         <SensorSquare />
 
-        {/* You can add more welcome screen content here, e.g. title, subtitle, buttons */}
-        <Text style={tw`text-primary dark:text-white text-2xl mt-8 font-bold`}>
-          Welcome to Acumen
-        </Text>
+        <View style={tw`w-full px-10`}>
+          <Text
+            style={tw`text-primary dark:text-white text-2xl mt-8 font-bold text-center`}
+          >
+            Welcome to Acumen
+          </Text>
 
-        <Text style={tw`dark:text-white text-base mt-2 opacity-70`}>
-          A new way to track your grades
-        </Text>
+          <Text
+            style={tw`dark:text-white text-base mt-2 opacity-70 text-center`}
+          >
+            A new way to track your grades
+          </Text>
 
-        <Button
-          variant="outline"
-          style={tw`mt-4 w-60`}
-          hapticFeedback="light"
-          onPress={() => router.replace("/sign-in")}
-        >
-          Get started
-        </Button>
+          <Button
+            variant="secondary"
+            style={tw`mt-4 w-full`}
+            hapticFeedback="light"
+            onPress={() => router.replace("/sign-in")}
+          >
+            Get started
+          </Button>
+        </View>
       </View>
     </View>
   );

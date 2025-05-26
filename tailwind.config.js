@@ -23,7 +23,7 @@ module.exports = {
         "primary-foreground": "hsl(0 85.7% 97.3%)",
 
         // Secondary colors
-        secondary: "hsl(0 0% 14.9%)",
+        secondary: "hsl(0 0% 14.9%)", // dark, for secondary backgrounds
         "secondary-foreground": "hsl(0 0% 98%)",
 
         // Muted colors
@@ -39,8 +39,8 @@ module.exports = {
         "destructive-foreground": "hsl(0 0% 98%)",
 
         // Border and input colors
-        border: "hsl(0 0% 14.9%)",
-        input: "hsl(0 0% 14.9%)",
+        border: "hsl(0 0% 22%)", // lighter neutral for borders
+        input: "hsl(0 0% 18%)", // between border and secondary, for input backgrounds
 
         // Ring color
         ring: "hsl(0 72.2% 50.6%)",
