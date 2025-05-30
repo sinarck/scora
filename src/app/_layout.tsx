@@ -4,7 +4,7 @@ import tw from "@/lib/tw";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { useFonts } from "expo-font";
-import { Slot } from "expo-router";
+import { Stack } from "expo-router";
 import * as SplashScreen from "expo-splash-screen";
 import { PostHogProvider } from "posthog-react-native";
 import { useEffect } from "react";
@@ -45,7 +45,15 @@ export default function RootLayout() {
     <QueryClientProvider client={queryClient}>
       <PostHogProvider apiKey="phc_FJxD6bI5W5CdWT2IdZfl3m9OB2IU0sOP8U2z0lpZS4c">
         <View style={tw`flex-1 font-sans`}>
-          <Slot />
+          <Stack screenOptions={{ headerShown: false }}>
+            <Stack.Screen
+              name="district-selection"
+              options={{
+                presentation: "modal",
+                headerShown: false,
+              }}
+            />
+          </Stack>
         </View>
       </PostHogProvider>
     </QueryClientProvider>
