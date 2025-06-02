@@ -74,7 +74,7 @@ export default function App() {
             variant="secondary"
             style={tw`w-full`}
             hapticFeedback="light"
-            onPress={() => router.replace("/sign-in")}
+            onPress={() => router.push("/sign-in")}
           >
             <Text style={tw`text-secondary-foreground text-lg font-semibold`}>
               Get Started

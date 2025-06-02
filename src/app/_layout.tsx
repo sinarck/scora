@@ -46,13 +46,8 @@ export default function RootLayout() {
       <PostHogProvider apiKey="phc_FJxD6bI5W5CdWT2IdZfl3m9OB2IU0sOP8U2z0lpZS4c">
         <View style={tw`flex-1 font-sans`}>
           <Stack screenOptions={{ headerShown: false }}>
-            <Stack.Screen
-              name="district-selection"
-              options={{
-                presentation: "modal",
-                headerShown: false,
-              }}
-            />
+            <Stack.Screen name="index" />
+            <Stack.Screen name="sign-in" />
           </Stack>
         </View>
       </PostHogProvider>

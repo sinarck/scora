@@ -1,15 +1,9 @@
 import DistrictModal from "@/components/district";
 import { Button } from "@/components/ui/button";
-import { District, districts } from "@/config/districts";
 import tw from "@/lib/tw";
+import { signInSchema, SignInSchema } from "@/schema/signInSchema";
 import { Ionicons } from "@expo/vector-icons";
-import {
-  Blur,
-  Canvas,
-  Fill,
-  RadialGradient,
-  vec,
-} from "@shopify/react-native-skia";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -17,27 +11,15 @@ import {
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  SafeAreaView,
+  ScrollView,
   Text,
   TextInput,
   View,
-  useWindowDimensions,
 } from "react-native";
-import Animated, {
-  useAnimatedStyle,
-  useSharedValue,
-  withTiming,
-} from "react-native-reanimated";
-
-interface FormData {
-  username: string;
-  password: string;
-  district: string;
-}
 
 export default function SignIn() {
-  const { width: windowWidth, height: windowHeight } = useWindowDimensions();
   const [isDistrictModalVisible, setIsDistrictModalVisible] = useState(false);
-  const [searchQuery, setSearchQuery] = useState("");
 
   const {
     handleSubmit,
@@ -45,7 +27,8 @@ export default function SignIn() {
     setValue,
     watch,
     formState: { errors },
-  } = useForm<FormData>({
+  } = useForm<SignInSchema>({
+    resolver: zodResolver(signInSchema),
     defaultValues: {
       username: "",
       password: "",
@@ -55,74 +38,46 @@ export default function SignIn() {
 
   const selectedDistrict = watch("district");
 
-  const filteredDistricts = districts.filter((district) =>
-    district.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
-
-  const onSubmit = (data: FormData) => {
+  const onSubmit = (data: SignInSchema) => {
     console.log("Sign in data:", data);
     // Handle sign in logic here
   };
 
-  const selectDistrict = (district: District) => {
-    setValue("district", district.name);
-    setIsDistrictModalVisible(false);
-    setSearchQuery("");
-  };
-
-  const fadeIn = useSharedValue(0);
-  const translateY = useSharedValue(20);
-
-  React.useEffect(() => {
-    fadeIn.value = withTiming(1, { duration: 800 });
-    translateY.value = withTiming(0, { duration: 800 });
-  }, [fadeIn, translateY]);
-
-  const animatedStyle = useAnimatedStyle(() => ({
-    opacity: fadeIn.value,
-    transform: [{ translateY: translateY.value }],
-  }));
-
   return (
-    <View style={tw`flex-1`}>
-      {/* Background gradient/blur */}
-      <Canvas style={tw`absolute inset-0`}>
-        <Fill>
-          <RadialGradient
-            c={vec(windowWidth / 2, windowHeight / 2)}
-            r={windowWidth / 1.5}
-            colors={["#252525", "#000000"]}
-          />
-          <Blur blur={50} />
-        </Fill>
-      </Canvas>
-
+    <ScrollView
+      style={tw`bg-background p-8`}
+      contentContainerStyle={tw`flex-1`}
+      keyboardShouldPersistTaps="handled"
+      scrollEnabled={false}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={tw`flex-1`}
       >
         <View style={tw`flex-1`}>
           {/* Header */}
-          <View style={tw`pt-16 px-8`}>
-            <Pressable
+          <SafeAreaView style={tw`mt-16`}>
+            <Button
               onPress={() => router.back()}
-              style={tw`w-10 h-10 rounded-full bg-secondary/50 items-center justify-center mb-8`}
+              variant="outline"
+              size="icon"
+              style={tw`mb-4`}
             >
               <Ionicons name="arrow-back" size={20} color="#ffffff" />
-            </Pressable>
+            </Button>
 
-            <Animated.View style={animatedStyle}>
+            <View>
               <Text style={tw`text-white text-3xl font-bold mb-2`}>
                 Welcome back
               </Text>
               <Text style={tw`text-white/70 text-lg mb-8`}>
                 Sign in to your account
               </Text>
-            </Animated.View>
-          </View>
+            </View>
+          </SafeAreaView>
 
           {/* Form */}
-          <Animated.View style={[tw`flex-1 px-8`, animatedStyle]}>
+          <View style={tw`flex-1`}>
             <View style={tw`gap-6`}>
               {/* Username Field */}
               <View>
@@ -132,13 +87,6 @@ export default function SignIn() {
                 <Controller
                   control={control}
                   name="username"
-                  rules={{
-                    required: "Student ID is required",
-                    pattern: {
-                      value: /^\d{6}$/,
-                      message: "Student ID must be exactly 6 digits",
-                    },
-                  }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                       style={[
@@ -172,13 +120,6 @@ export default function SignIn() {
                 <Controller
                   control={control}
                   name="password"
-                  rules={{
-                    required: "Password is required",
-                    minLength: {
-                      value: 1,
-                      message: "Password is required",
-                    },
-                  }}
                   render={({ field: { onChange, onBlur, value } }) => (
                     <TextInput
                       style={[
@@ -211,7 +152,6 @@ export default function SignIn() {
                 <Controller
                   control={control}
                   name="district"
-                  rules={{ required: "Please select your school district" }}
                   render={({ field }) => (
                     <Pressable
                       onPress={() => setIsDistrictModalVisible(true)}
@@ -253,7 +193,7 @@ export default function SignIn() {
                 </Text>
               </Button>
             </View>
-          </Animated.View>
+          </View>
         </View>
       </KeyboardAvoidingView>
 
@@ -261,14 +201,14 @@ export default function SignIn() {
       <DistrictModal
         visible={isDistrictModalVisible}
         onClose={() => setIsDistrictModalVisible(false)}
-        districts={districts}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        selectDistrict={selectDistrict}
-        filteredDistricts={filteredDistricts}
+        onSelect={(district) => {
+          setValue("district", district.name);
+          setIsDistrictModalVisible(false);
+        }}
+        selectedDistrict={selectedDistrict}
         errors={errors}
       />
-    </View>
+    </ScrollView>
   );
 }
 
