@@ -74,7 +74,7 @@ export default function App() {
             variant="secondary"
             style={tw`w-full`}
             hapticFeedback="light"
-            onPress={() => router.push("/sign-in")}
+            onPress={() => router.push("/_sitemap")}
           >
             <Text style={tw`text-secondary-foreground text-lg font-semibold`}>
               Get Started

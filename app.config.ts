@@ -34,7 +34,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   },
   extra: {
     eas: {
-      projectId: "e60c5ae1-c77b-4403-86dd-6cd08378db7e",
+      projectId: "0bce0e6a-1f34-4eea-bf1f-6fabcc950232",
     },
   },
   experiments: {
@@ -44,6 +44,8 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
     "expo-router",
     "expo-quick-actions",
     "react-native-bottom-tabs",
+    "expo-localization",
+    "expo-web-browser",
     [
       "expo-build-properties",
       {

@@ -1,7 +1,7 @@
 import DistrictModal from "@/components/district";
 import { Button } from "@/components/ui/button";
 import tw from "@/lib/tw";
-import { signInSchema, SignInSchema } from "@/schema/signInSchema";
+import { signInSchema, SignInSchema } from "@/schema/login";
 import { Ionicons } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
