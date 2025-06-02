@@ -1,9 +1,9 @@
 import { ConfigContext, ExpoConfig } from "expo/config";
 
 export default ({ config }: ConfigContext): ExpoConfig => ({
-  name: "Acumen",
-  slug: "acumen",
-  scheme: "acumen",
+  name: "Scora",
+  slug: "scora",
+  scheme: "scora",
   version: "1.0.0",
   orientation: "portrait",
   icon: "./assets/images/icon.png",
@@ -17,7 +17,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
   assetBundlePatterns: ["**/*"],
   ios: {
     supportsTablet: true,
-    bundleIdentifier: "org.acumen.app",
+    bundleIdentifier: "org.scora.app",
     infoPlist: {
       ITSAppUsesNonExemptEncryption: false,
     },
@@ -27,7 +27,7 @@ export default ({ config }: ConfigContext): ExpoConfig => ({
       foregroundImage: "./assets/images/adaptive-icon.png",
       backgroundColor: "#1E1E1F",
     },
-    package: "org.acumen.app",
+    package: "org.scora.app",
   },
   web: {
     favicon: "./assets/images/favicon.png",

@@ -16,7 +16,7 @@ export interface WordStyle {
 
 export const SPECIAL_WORDS: WordStyle[] = [
   {
-    word: "Acumen",
+    word: "Scora",
     appIcon: true,
     style: "highlight",
   },
@@ -60,7 +60,7 @@ export const SPECIAL_WORDS: WordStyle[] = [
 
 export const WELCOME_PARAGRAPHS: WelcomeParagraph[] = [
   {
-    text: "Welcome to Acumen",
+    text: "Welcome to Scora",
   },
   {
     text: "The most beautiful and intuitive way to track your academic journey. See your grades, progress, and achievements like never before.",
