@@ -2,17 +2,14 @@ import { SessionProvider, useSession } from "@/lib/auth-context";
 import { SplashScreenController } from "@/lib/splash";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
-import { PostHogProvider } from "posthog-react-native";
 import { StrictMode } from "react";
 import tw, { useDeviceContext } from "twrnc";
 
 export default function Root() {
   return (
     <SessionProvider>
-      <PostHogProvider apiKey="phc_QaS0R2A6CB2RhBPb1fTGb6a8Hvr00hchSlMSrMUPtZF">
-        <SplashScreenController />
-        <RootNavigator />
-      </PostHogProvider>
+      <SplashScreenController />
+      <RootNavigator />
     </SessionProvider>
   );
 }

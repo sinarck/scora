@@ -886,6 +886,16 @@
     "@eslint/core" "^0.15.0"
     levn "^0.4.1"
 
+"@expo-google-fonts/space-grotesk@^0.4.0":
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/space-grotesk/-/space-grotesk-0.4.0.tgz#0d9340f0c7c5d3a12e36ba324e6f5bd22c22f6e7"
+  integrity sha512-AwxzX8sbcy9QiYkJwc3pKgpMkHB/himJfcZNEl/a/KvGIra9CewPmBs/zwMYcWt8SsNMslqfeLy5NFeJtf8Ixg==
+
+"@expo-google-fonts/urbanist@^0.4.1":
+  version "0.4.1"
+  resolved "https://registry.yarnpkg.com/@expo-google-fonts/urbanist/-/urbanist-0.4.1.tgz#dbdc48560e397b45cdb2852701c0a5a206194dc1"
+  integrity sha512-8RQQlveM9q0kBfDdAZxgakV93ncPlCn+gfRQpU3p7haYNo7J1fdHsoFsVpV1B2NUSFUNHBGRKjbglHqvPaRKiA==
+
 "@expo/cli@0.24.14":
   version "0.24.14"
   resolved "https://registry.yarnpkg.com/@expo/cli/-/cli-0.24.14.tgz#af2e7ea5a08e3574e868cb0ec2110e68d32672e0"
@@ -5562,11 +5572,6 @@ postcss@~8.4.32:
     nanoid "^3.3.7"
     picocolors "^1.1.1"
     source-map-js "^1.2.1"
-
-posthog-react-native@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/posthog-react-native/-/posthog-react-native-4.1.0.tgz#2c5ef8babc01b0502b828c01fcd106bce3b4f988"
-  integrity sha512-/c4xHUZaLZsbkLoaanirbXpNOu0J4KTN/oEdFegCNry2PtuEwEi973/geLZDcxnXMJ4Ulqg22B2ltCY/7bDehA==
 
 prelude-ls@^1.2.1:
   version "1.2.1"

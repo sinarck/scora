@@ -28,6 +28,27 @@
       "favicon": "./assets/images/favicon.png"
     },
     "plugins": [
+      [
+        "expo-font",
+        {
+          "fonts": [
+            "node_modules/@expo-google-fonts/space-grotesk/300Light/SpaceGrotesk_300Light.ttf",
+            "node_modules/@expo-google-fonts/space-grotesk/400Regular/SpaceGrotesk_400Regular.ttf",
+            "node_modules/@expo-google-fonts/space-grotesk/500Medium/SpaceGrotesk_500Medium.ttf",
+            "node_modules/@expo-google-fonts/space-grotesk/600SemiBold/SpaceGrotesk_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/space-grotesk/700Bold/SpaceGrotesk_700Bold.ttf",
+            "node_modules/@expo-google-fonts/urbanist/100Thin/Urbanist_100Thin.ttf",
+            "node_modules/@expo-google-fonts/urbanist/200ExtraLight/Urbanist_200ExtraLight.ttf",
+            "node_modules/@expo-google-fonts/urbanist/300Light/Urbanist_300Light.ttf",
+            "node_modules/@expo-google-fonts/urbanist/400Regular/Urbanist_400Regular.ttf",
+            "node_modules/@expo-google-fonts/urbanist/500Medium/Urbanist_500Medium.ttf",
+            "node_modules/@expo-google-fonts/urbanist/600SemiBold/Urbanist_600SemiBold.ttf",
+            "node_modules/@expo-google-fonts/urbanist/700Bold/Urbanist_700Bold.ttf",
+            "node_modules/@expo-google-fonts/urbanist/800ExtraBold/Urbanist_800ExtraBold.ttf",
+            "node_modules/@expo-google-fonts/urbanist/900Black/Urbanist_900Black.ttf"
+          ]
+        }
+      ],
       "expo-router",
       [
         "expo-splash-screen",
@@ -39,7 +60,8 @@
         }
       ],
       "expo-secure-store",
-      "expo-localization"
+      "expo-localization",
+      "expo-font"
     ],
     "experiments": {
       "typedRoutes": true,
@@ -54,3 +76,4 @@
     }
   }
 }
+
