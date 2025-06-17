@@ -4,6 +4,10 @@ import { Platform } from "react-native";
 
 type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
 
+/**
+ * Internal hook for managing async state with loading indicator.
+ * @template T - The type of the state value
+ */
 function useAsyncState<T>(
   initialValue: [boolean, T | null] = [true, null]
 ): UseStateHook<T> {
@@ -16,6 +20,11 @@ function useAsyncState<T>(
   ) as UseStateHook<T>;
 }
 
+/**
+ * Persists a value to secure storage (native) or localStorage (web).
+ * @param key - Storage key
+ * @param value - Value to store, or null to remove
+ */
 export async function setStorageItemAsync(key: string, value: string | null) {
   if (Platform.OS === "web") {
     try {
@@ -36,6 +45,12 @@ export async function setStorageItemAsync(key: string, value: string | null) {
   }
 }
 
+/**
+ * Hook for managing persistent storage state with loading indicator.
+ * Uses SecureStore on native platforms and localStorage on web.
+ * @param key - Storage key to use
+ * @returns A tuple containing [loading state, value, setter function]
+ */
 export function useStorageState(key: string): UseStateHook<string> {
   // Public
   const [state, setState] = useAsyncState<string>();
