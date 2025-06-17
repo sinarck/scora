@@ -1,9 +1,10 @@
 import { SessionProvider, useSession } from "@/lib/auth-context";
 import { SplashScreenController } from "@/lib/splash";
+import tw from "@/lib/tw";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
 import { StrictMode } from "react";
-import tw, { useDeviceContext } from "twrnc";
+import { useDeviceContext } from "twrnc";
 
 export default function Root() {
   return (

@@ -1,11 +1,12 @@
 import { useSession } from "@/lib/auth-context";
+import tw from "@/lib/tw";
 import { router } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function SignIn() {
   const { signIn } = useSession();
   return (
-    <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+    <View style={tw`flex-1 justify-center items-center dark:bg-black`}>
       <Text
         onPress={() => {
           signIn();
@@ -14,7 +15,7 @@ export default function SignIn() {
           router.replace("/");
         }}
       >
-        Sign In
+        Log In
       </Text>
     </View>
   );
