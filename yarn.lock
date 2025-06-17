@@ -5752,6 +5752,11 @@ react-native-bottom-tabs@^0.9.2:
     sf-symbols-typescript "^2.0.0"
     use-latest-callback "^0.2.1"
 
+react-native-context-menu-view@^1.19.0:
+  version "1.19.0"
+  resolved "https://registry.yarnpkg.com/react-native-context-menu-view/-/react-native-context-menu-view-1.19.0.tgz#6752f619afa327d51a470882fd574282a97fad0f"
+  integrity sha512-RKkDUQuY9cVIb3rJl0ch8+FLH/WnjN6febtOuSif/6F3q7vuMZ8Ie+jmYGtnIbvSxl6lMknAZU61O192ysW3zg==
+
 react-native-edge-to-edge@1.6.0:
   version "1.6.0"
   resolved "https://registry.yarnpkg.com/react-native-edge-to-edge/-/react-native-edge-to-edge-1.6.0.tgz#2ba63b941704a7f713e298185c26cde4d9e4b973"
