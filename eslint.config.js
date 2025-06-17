@@ -1,12 +1,17 @@
 // https://docs.expo.dev/guides/using-eslint/
-const { defineConfig } = require("eslint/config");
-const expoConfig = require("eslint-config-expo/flat");
+import pluginQuery from "@tanstack/eslint-plugin-query";
+import expoConfig from "eslint-config-expo/flat.js";
+import pluginReactCompiler from "eslint-plugin-react-compiler";
+import { defineConfig } from "eslint/config";
 
-module.exports = defineConfig([
+export default defineConfig([
   expoConfig,
+  ...pluginQuery.configs["flat/recommended"],
   {
     ignores: ["dist/*"],
-    plugins: ["react-compiler"],
+    plugins: {
+      "react-compiler": pluginReactCompiler,
+    },
     rules: {
       "react-compiler/react-compiler": "error",
     },

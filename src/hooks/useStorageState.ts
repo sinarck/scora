@@ -70,15 +70,27 @@ export function useStorageState(key: string): UseStateHook<string> {
         setState(value);
       });
     }
-  }, [key]);
+  }, [key, setState]);
 
   // Set
   const setValue = useCallback(
     (value: string | null) => {
       setState(value);
-      setStorageItemAsync(key, value);
+      if (Platform.OS === "web") {
+        if (value === null) {
+          localStorage.removeItem(key);
+        } else {
+          localStorage.setItem(key, value);
+        }
+      } else {
+        if (value === null) {
+          SecureStore.deleteItemAsync(key);
+        } else {
+          SecureStore.setItemAsync(key, value);
+        }
+      }
     },
-    [key]
+    [key, setState]
   );
 
   return [state, setValue];

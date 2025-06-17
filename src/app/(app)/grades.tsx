@@ -1,4 +1,4 @@
-import tw from "@/lib/tw";
+import tw from "@/lib/ui/tw";
 import { Text, View } from "react-native";
 
 export default function Grades() {

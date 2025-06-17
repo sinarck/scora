@@ -1,6 +1,6 @@
 import { useHaptics } from "@/hooks/useHaptics";
-import { useSession } from "@/lib/auth-context";
-import { Tabs } from "@/lib/tabs";
+import { useSession } from "@/lib/auth/auth-context";
+import { Tabs } from "@/lib/ui/tabs";
 import { router } from "expo-router";
 import { useRef } from "react";
 

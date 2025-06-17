@@ -1,23 +1,16 @@
 import * as Haptics from "expo-haptics";
 import { useMemo } from "react";
 
-export type FeedbackType =
+type FeedbackType =
+  | "selection"
   | "light"
   | "medium"
   | "heavy"
-  | "selection"
   | "success"
   | "warning"
   | "error";
 
-/**
- * This hook provides a function to trigger haptic feedback on supported devices using `expo-haptics`.
- *
- * Implementation heavily inspired by the [following article](https://medium.com/timeless/implementing-haptic-feedback-in-react-native-writing-a-usehaptic-hook-6b8612675599).
- *
- * @param feedbackType The variant of haptic feedback to use, each `type` corresponds to a different weight and intensity. Defaults to `selection`.
- * @returns Promise<void> A promise that resolves when the haptic feedback has been completed.
- */
+// Hook for triggering haptic feedback on supported devices
 export const useHaptics = (feedbackType: FeedbackType = "selection") => {
   const hapticHandlers = useMemo(() => {
     const createHapticHandler = (type: Haptics.ImpactFeedbackStyle) => {

@@ -1,18 +1,21 @@
-import { useSession } from "@/lib/auth-context";
-import tw from "@/lib/tw";
+import { useSession } from "@/lib/auth/auth-context";
+import tw from "@/lib/ui/tw";
 import { router } from "expo-router";
 import { Text, View } from "react-native";
 
 export default function SignIn() {
   const { signIn } = useSession();
+
   return (
-    <View style={tw`flex-1 justify-center items-center dark:bg-black`}>
+    <View style={tw`flex-1 justify-center items-center`}>
       <Text
         onPress={() => {
-          signIn();
-          // Navigate after signing in. You may want to tweak this to ensure sign-in is
-          // successful before navigating.
-          router.replace("/");
+          signIn(
+            { username: "jason", password: "password" },
+            "1234567890"
+          ).then(() => {
+            router.replace("/");
+          });
         }}
       >
         Log In

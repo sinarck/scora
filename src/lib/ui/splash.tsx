@@ -1,4 +1,4 @@
-import { useSession } from "@/lib/auth-context";
+import { useSession } from "@/lib/auth/auth-context";
 import { SplashScreen } from "expo-router";
 
 /**

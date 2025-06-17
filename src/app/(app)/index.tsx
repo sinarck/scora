@@ -1,5 +1,5 @@
-import { useSession } from "@/lib/auth-context";
-import tw from "@/lib/tw";
+import { useSession } from "@/lib/auth/auth-context";
+import tw from "@/lib/ui/tw";
 import { Text, View } from "react-native";
 
 export default function Index() {
