@@ -1,9 +1,14 @@
 import { Stack } from "expo-router";
+import { StrictMode } from "react";
 import tw, { useDeviceContext } from "twrnc";
 
 export default function RootLayout() {
   useDeviceContext(tw);
 
-  return <Stack />;
+  return (
+    <StrictMode>
+      <Stack />
+    </StrictMode>
+  );
 }
 

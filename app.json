@@ -36,7 +36,9 @@
       ]
     ],
     "experiments": {
-      "typedRoutes": true
+      "typedRoutes": true,
+      "reactCompiler": true,
+      "reactCanary": true
     }
   }
 }
