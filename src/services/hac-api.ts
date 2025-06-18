@@ -37,8 +37,6 @@ export async function fetchLoginPage(): Promise<LoginPageData> {
       throw new Error("TOKEN_EXTRACTION_FAILED");
     }
 
-    console.log("Successfully extracted token:", requestVerificationToken);
-
     return { requestVerificationToken };
   } catch (e) {
     console.error("Error fetching login page:", e);

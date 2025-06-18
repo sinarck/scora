@@ -19,7 +19,7 @@ export interface LoginCredentials {
   username: string;
   /** HAC password */
   password: string;
-
+  /** CSRF token required for login submission */
   token: LoginPageData["requestVerificationToken"];
 }
 

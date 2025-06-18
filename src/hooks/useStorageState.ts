@@ -96,3 +96,53 @@ export function useStorageState(key: string): UseStateHook<string> {
   return [state, setValue];
 }
 
+/**
+ * Hook for managing persistent object storage state with loading indicator.
+ * Automatically handles JSON serialization/deserialization.
+ * @param key - Storage key to use
+ * @returns A tuple containing [loading state, value, setter function]
+ */
+export function useObjectStorageState<T>(key: string): UseStateHook<T> {
+  const [[isLoading, stringValue], setStringValue] = useStorageState(key);
+
+  const [state, setState] = useAsyncState<T>();
+
+  // Deserialize on load
+  useEffect(() => {
+    if (!isLoading) {
+      try {
+        if (stringValue) {
+          const parsedValue = JSON.parse(stringValue) as T;
+          setState(parsedValue);
+        } else {
+          setState(null);
+        }
+      } catch (error) {
+        console.error(`Failed to parse stored object for key "${key}":`, error);
+        setState(null);
+        setStringValue(null); // Clear invalid data
+      }
+    }
+  }, [isLoading, stringValue, key, setState, setStringValue]);
+
+  const setValue = useCallback(
+    (value: T | null) => {
+      try {
+        if (value === null) {
+          setStringValue(null);
+          setState(null);
+        } else {
+          const serialized = JSON.stringify(value);
+          setStringValue(serialized);
+          setState(value);
+        }
+      } catch (error) {
+        console.error(`Failed to serialize object for key "${key}":`, error);
+      }
+    },
+    [key, setStringValue, setState]
+  );
+
+  return [state, setValue];
+}
+

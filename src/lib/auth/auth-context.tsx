@@ -1,14 +1,15 @@
-import { useStorageState } from "@/hooks/useStorageState";
+import { useObjectStorageState } from "@/hooks/useStorageState";
+import { SessionData } from "@/types/auth";
 import { createContext, use, type PropsWithChildren } from "react";
 
 /**
  * Authentication context that provides session management functionality.
- * Uses a simple string-based session token for demonstration purposes.
+ * Uses SessionData objects for proper session management.
  */
 const AuthContext = createContext<{
-  signIn: () => void;
+  signIn: (sessionData: SessionData) => void;
   signOut: () => void;
-  session?: string | null;
+  session?: SessionData | null;
   isLoading: boolean;
 }>({
   signIn: () => null,
@@ -23,28 +24,27 @@ const AuthContext = createContext<{
  */
 export function useSession() {
   const value = use(AuthContext);
+
   if (!value) {
     throw new Error("useSession must be wrapped in a <SessionProvider />");
   }
+
   return value;
 }
 
 /**
  * Provider component that wraps the app and provides authentication context.
- * Manages session state using secure storage.
+ * Manages session state using secure storage with automatic JSON serialization.
  */
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] = useStorageState("session");
+  const [[isLoading, session], setSession] =
+    useObjectStorageState<SessionData>("session");
 
   return (
     <AuthContext.Provider
       value={{
-        signIn: () => {
-          setSession("xxx");
-        },
-        signOut: () => {
-          setSession(null);
-        },
+        signIn: setSession,
+        signOut: () => setSession(null),
         session,
         isLoading,
       }}
