@@ -6,13 +6,9 @@
  */
 export interface SessionData {
   /** Session cookies for authenticated HAC requests */
-  cookies: string;
+  cookies?: string;
   /** User's display name from HAC */
   userName: string;
-  /** Optional session identifier from HAC */
-  sessionId?: string;
-  /** CSRF token for form submissions if needed */
-  requestVerificationToken?: string;
 }
 
 /**
@@ -23,6 +19,8 @@ export interface LoginCredentials {
   username: string;
   /** HAC password */
   password: string;
+
+  token: LoginPageData["requestVerificationToken"];
 }
 
 /**
@@ -40,7 +38,9 @@ export interface LoginPageData {
 export type AuthError =
   | "INVALID_CREDENTIALS"
   | "NETWORK_ERROR"
-  | "TOKEN_EXTRACTION_FAILED";
+  | "TOKEN_EXTRACTION_FAILED"
+  | "AUTH_COOKIE_MISSING"
+  | "UNKNOWN_ERROR";
 
 /**
  * Authentication response from HAC login attempt

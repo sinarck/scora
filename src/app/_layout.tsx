@@ -2,6 +2,7 @@ import { SessionProvider, useSession } from "@/lib/auth/auth-context";
 import { queryClient } from "@/lib/query/query-client";
 import { SplashScreenController } from "@/lib/ui/splash";
 import tw from "@/lib/ui/tw";
+import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";
 import { Stack } from "expo-router";
 import { StatusBar } from "expo-status-bar";
@@ -21,6 +22,8 @@ export default function Root() {
 
 function RootNavigator() {
   useDeviceContext(tw);
+  useReactQueryDevTools(queryClient);
+
   const { session } = useSession();
 
   return (
