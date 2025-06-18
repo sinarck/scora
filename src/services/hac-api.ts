@@ -31,13 +31,13 @@ export async function fetchLoginPage(): Promise<LoginPageData> {
     const $ = load(loginPageText);
     const tokenInput = $('input[name="__RequestVerificationToken"]');
 
-    const requestVerificationToken = tokenInput.attr("value");
+    const token = tokenInput.attr("value");
 
-    if (!requestVerificationToken) {
+    if (!token) {
       throw new Error("TOKEN_EXTRACTION_FAILED");
     }
 
-    return { requestVerificationToken };
+    return { requestVerificationToken: token };
   } catch (e) {
     console.error("Error fetching login page:", e);
     throw e;
@@ -50,8 +50,6 @@ export async function authenticateWithHAC({
   token,
 }: LoginCredentials): Promise<AuthResponse> {
   try {
-    console.log(username, "\n", password);
-
     const headers = {
       accept:
         "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",

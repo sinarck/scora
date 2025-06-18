@@ -8,15 +8,23 @@ export default function SignIn() {
   const { signIn } = useSession();
   const { data, isError, isLoading } = useLoginPageQuery();
 
-  if (!isLoading) {
-    console.log(data?.requestVerificationToken);
+  if (isLoading) {
+    return <Text>Loading...</Text>;
+  }
+
+  if (isError) {
+    return <Text>Error</Text>;
   }
 
   return (
     <View style={tw`flex-1 justify-center items-center dark:bg-white`}>
       <Text
         onPress={() => {
-          signIn();
+          signIn({
+            username: process.env.USERNAME!,
+            password: process.env.PASSWORD!,
+            token: data!.requestVerificationToken,
+          });
           // Navigate after signing in. You may want to tweak this to ensure sign-in is
           // successful before navigating.
           router.replace("/");
