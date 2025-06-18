@@ -24,6 +24,7 @@
     "@tanstack/react-query": "^5.80.7",
     "axios": "^1.10.0",
     "axios-cookiejar-support": "^6.0.2",
+    "axios-cookiejar-support-react-native": "^1.0.1",
     "babel-plugin-react-compiler": "^19.0.0-beta-af1b7da-20250417",
     "burnt": "^0.13.0",
     "cheerio": "1.0.0-rc.12",
@@ -60,6 +61,7 @@
     "react-native-screens": "~4.11.1",
     "react-native-web": "~0.20.0",
     "react-native-webview": "13.13.5",
+    "set-cookie-parser": "^2.7.1",
     "tough-cookie": "^5.1.2",
     "twrnc": "^4.9.0"
   },
@@ -67,6 +69,7 @@
     "@babel/core": "^7.25.2",
     "@tanstack/eslint-plugin-query": "^5.78.0",
     "@types/react": "~19.0.10",
+    "@types/set-cookie-parser": "^2.4.10",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "typescript": "~5.8.3"
