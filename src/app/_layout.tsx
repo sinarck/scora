@@ -36,9 +36,15 @@ function RootNavigator() {
         </Stack.Protected>
 
         <Stack.Protected guard={!session}>
-          <Stack.Screen name="login" />
+          <Stack.Screen
+            name="login"
+            options={{
+              headerStyle: { backgroundColor: tw.color("bg-neutral-300") },
+            }}
+          />
         </Stack.Protected>
       </Stack>
     </StrictMode>
   );
 }
+

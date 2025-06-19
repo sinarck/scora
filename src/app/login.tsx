@@ -6,7 +6,7 @@ import { Text, View } from "react-native";
 
 export default function SignIn() {
   const { signIn } = useSession();
-  const { data, isError, isLoading } = useLoginPageQuery();
+  const { isError, isLoading } = useLoginPageQuery();
 
   if (isLoading) {
     return <Text>Loading...</Text>;
@@ -23,7 +23,6 @@ export default function SignIn() {
           const success = await signIn({
             username: process.env.EXPO_PUBLIC_USERNAME!,
             password: process.env.EXPO_PUBLIC_PASSWORD!,
-            token: data!.requestVerificationToken,
           });
 
           // Only navigate if sign-in was successful
@@ -37,3 +36,4 @@ export default function SignIn() {
     </View>
   );
 }
+

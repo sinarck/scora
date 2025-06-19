@@ -8,7 +8,7 @@ import { createContext, use, useCallback, type PropsWithChildren } from "react";
  * Uses SessionData objects for proper session management.
  */
 const AuthContext = createContext<{
-  signIn: ({ username, password, token }: LoginCredentials) => Promise<boolean>;
+  signIn: ({ username, password }: LoginCredentials) => Promise<boolean>;
   signOut: () => void;
   session?: SessionData | null;
   isLoading: boolean;
@@ -42,17 +42,12 @@ export function SessionProvider({ children }: PropsWithChildren) {
     useObjectStorageState<SessionData>("session");
 
   const signIn = useCallback(
-    async ({
-      username,
-      password,
-      token,
-    }: LoginCredentials): Promise<boolean> => {
+    async ({ username, password }: LoginCredentials): Promise<boolean> => {
       try {
         // Authenticate with HAC
         const authResponse = await authenticateWithHAC({
           username,
           password,
-          token: token,
         });
 
         if (authResponse.success && authResponse.session) {
@@ -62,7 +57,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           console.error(
             "Authentication failed:",
             authResponse.error,
-            authResponse.message,
+            authResponse.message
           );
           return false;
         }
@@ -71,7 +66,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         return false;
       }
     },
-    [setSession],
+    [setSession]
   );
 
   return (
@@ -87,3 +82,4 @@ export function SessionProvider({ children }: PropsWithChildren) {
     </AuthContext.Provider>
   );
 }
+
