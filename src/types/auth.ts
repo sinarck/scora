@@ -45,6 +45,7 @@ export type AuthError =
   | "TIMEOUT_ERROR"
   | "ACCESS_DENIED"
   | "SERVER_ERROR"
+  | "ACCOUNT_LOCKED"
   | "UNKNOWN_ERROR";
 
 /**
@@ -60,3 +61,4 @@ export interface AuthResponse {
   /** Human-readable error message */
   message?: string;
 }
+
