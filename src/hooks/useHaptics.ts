@@ -18,7 +18,7 @@ export const useHaptics = (feedbackType: FeedbackType = "selection") => {
     };
 
     const createNotificationFeedback = (
-      type: Haptics.NotificationFeedbackType
+      type: Haptics.NotificationFeedbackType,
     ) => {
       return () => Haptics.notificationAsync(type);
     };
@@ -29,10 +29,10 @@ export const useHaptics = (feedbackType: FeedbackType = "selection") => {
       medium: createHapticHandler(Haptics.ImpactFeedbackStyle.Medium),
       heavy: createHapticHandler(Haptics.ImpactFeedbackStyle.Heavy),
       success: createNotificationFeedback(
-        Haptics.NotificationFeedbackType.Success
+        Haptics.NotificationFeedbackType.Success,
       ),
       warning: createNotificationFeedback(
-        Haptics.NotificationFeedbackType.Warning
+        Haptics.NotificationFeedbackType.Warning,
       ),
       error: createNotificationFeedback(Haptics.NotificationFeedbackType.Error),
     };
@@ -40,4 +40,3 @@ export const useHaptics = (feedbackType: FeedbackType = "selection") => {
 
   return hapticHandlers[feedbackType];
 };
-

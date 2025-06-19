@@ -12,7 +12,7 @@ const HAC_BASE_URL = "https://hac.friscoisd.org";
 export async function fetchLoginPage(): Promise<LoginPageData> {
   try {
     const response = await fetchWithCookies(
-      `${HAC_BASE_URL}/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f`
+      `${HAC_BASE_URL}/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f`,
     );
 
     const loginPageText = await response.text();
@@ -53,7 +53,7 @@ export async function authenticateWithHAC({
           Connection: "keep-alive",
           "Upgrade-Insecure-Requests": "1",
         },
-      }
+      },
     );
 
     const loginPageText = await res.text();
@@ -94,16 +94,21 @@ export async function authenticateWithHAC({
     };
 
     console.log("🔍 Sending authentication request...");
+
     const response = await fetchWithCookies(
       `${HAC_BASE_URL}/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f`,
       {
         method: "POST",
         headers,
         body: new URLSearchParams(payload).toString(),
-      }
+      },
     );
 
     console.log(JSON.stringify(response, null, 2));
+
+    if (response.status !== 302) {
+      throw new Error("Authentication failed");
+    }
 
     return {
       success: true,
@@ -122,4 +127,3 @@ export async function authenticateWithHAC({
     };
   }
 }
-

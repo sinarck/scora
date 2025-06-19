@@ -62,7 +62,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
           console.error(
             "Authentication failed:",
             authResponse.error,
-            authResponse.message
+            authResponse.message,
           );
           return false;
         }
@@ -71,7 +71,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
         return false;
       }
     },
-    [setSession]
+    [setSession],
   );
 
   return (
@@ -87,4 +87,3 @@ export function SessionProvider({ children }: PropsWithChildren) {
     </AuthContext.Provider>
   );
 }
-

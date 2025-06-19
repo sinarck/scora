@@ -19,15 +19,17 @@ export default function SignIn() {
   return (
     <View style={tw`flex-1 justify-center items-center dark:bg-white`}>
       <Text
-        onPress={() => {
-          signIn({
-            username: process.env.USERNAME!,
-            password: process.env.PASSWORD!,
+        onPress={async () => {
+          const success = await signIn({
+            username: process.env.EXPO_PUBLIC_USERNAME!,
+            password: process.env.EXPO_PUBLIC_PASSWORD!,
             token: data!.requestVerificationToken,
           });
-          // Navigate after signing in. You may want to tweak this to ensure sign-in is
-          // successful before navigating.
-          router.replace("/");
+
+          // Only navigate if sign-in was successful
+          if (success) {
+            router.replace("/");
+          }
         }}
       >
         Log In
@@ -35,4 +37,3 @@ export default function SignIn() {
     </View>
   );
 }
-

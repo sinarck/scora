@@ -7,7 +7,7 @@ const origFetch = globalThis.fetch;
 const cookieMap = new Map<string, Record<string, setCookieParser.Cookie>>();
 
 function buildCookieString(
-  cookies: Record<string, setCookieParser.Cookie>
+  cookies: Record<string, setCookieParser.Cookie>,
 ): string {
   return Object.entries(cookies)
     .map(([name, cookie]) => `${name}=${cookie.value}`)
@@ -24,7 +24,7 @@ function isCookieExpired(cookie: setCookieParser.Cookie): boolean {
 // A wrapper around fetch since RN messes up handling of cookies
 export function fetchWithCookies(
   input: RequestInfo | URL,
-  init?: RequestInit | undefined
+  init?: RequestInit | undefined,
 ) {
   const hostname = new URL(input instanceof Request ? input.url : input)
     .hostname;
@@ -42,7 +42,7 @@ export function fetchWithCookies(
       res.headers.get("Set-Cookie") || "",
       {
         map: true, // Use map to get an object with cookie names as keys
-      }
+      },
     );
 
     // Update the existing cookies with new ones
@@ -51,10 +51,13 @@ export function fetchWithCookies(
     // Filter out expired cookies
     const validNewCookies = Object.entries(combinedCookies)
       .filter(([, cookie]) => !isCookieExpired(cookie))
-      .reduce((acc, [name, cookie]) => {
-        acc[name] = cookie;
-        return acc;
-      }, {} as Record<string, setCookieParser.Cookie>);
+      .reduce(
+        (acc, [name, cookie]) => {
+          acc[name] = cookie;
+          return acc;
+        },
+        {} as Record<string, setCookieParser.Cookie>,
+      );
 
     cookieMap.set(hostname, validNewCookies);
 
@@ -66,4 +69,3 @@ export function fetchWithCookies(
     return res;
   });
 }
-

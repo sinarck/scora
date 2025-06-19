@@ -60,4 +60,3 @@ export interface AuthResponse {
   /** Human-readable error message */
   message?: string;
 }
-

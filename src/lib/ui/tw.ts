@@ -6,4 +6,3 @@ const tw = create(tailwindConfig as TwConfig);
 
 // ... and then this becomes the main function your app uses
 export default tw;
-
