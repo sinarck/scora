@@ -1,7 +1,6 @@
 import { useObjectStorageState } from "@/hooks/useStorageState";
-import { authenticateWithHAC } from "@/services/hac-api";
 import { LoginCredentials, SessionData } from "@/types/auth";
-import { createContext, use, useCallback, type PropsWithChildren } from "react";
+import { createContext, use, type PropsWithChildren } from "react";
 
 /**
  * Authentication context that provides session management functionality.
@@ -41,33 +40,20 @@ export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] =
     useObjectStorageState<SessionData>("session");
 
-  const signIn = useCallback(
-    async ({ username, password }: LoginCredentials): Promise<boolean> => {
-      try {
-        // Authenticate with HAC
-        const authResponse = await authenticateWithHAC({
-          username,
-          password,
-        });
+  const signIn = async ({ username, password }: LoginCredentials) => {
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      body: JSON.stringify({ username, password }),
+    });
 
-        if (authResponse.success && authResponse.session) {
-          setSession(authResponse.session);
-          return true;
-        } else {
-          console.error(
-            "Authentication failed:",
-            authResponse.error,
-            authResponse.message
-          );
-          return false;
-        }
-      } catch (error) {
-        console.error("Sign in error:", error);
-        return false;
-      }
-    },
-    [setSession]
-  );
+    if (!response.ok) {
+      throw new Error("Failed to sign in");
+    }
+
+    const data = await response.json();
+
+    return data.success ? (setSession(data.session), true) : false;
+  };
 
   return (
     <AuthContext.Provider

@@ -1,4 +1,3 @@
-import { fetchWithCookies } from "@/lib/query/fetch";
 import type {
   AuthResponse,
   LoginCredentials,
@@ -11,7 +10,7 @@ const HAC_BASE_URL = "https://hac.friscoisd.org";
 
 export async function fetchLoginPage(): Promise<LoginPageData> {
   try {
-    const response = await fetchWithCookies(
+    const response = await fetch(
       `${HAC_BASE_URL}/HomeAccess/Account/LogOn?ReturnUrl=%2fhomeaccess`
     );
 
@@ -74,7 +73,7 @@ export async function authenticateWithHAC({
       "LogOnDetails.Password": password,
     };
 
-    const response = await fetchWithCookies(
+    const response = await fetch(
       `${HAC_BASE_URL}/HomeAccess/Account/LogOn?ReturnUrl=%2fhomeaccess`,
       {
         method: "POST",
