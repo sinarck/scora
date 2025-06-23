@@ -10,6 +10,7 @@ export async function POST(request: Request) {
   try {
     const { username, password } = loginSchema.parse(await request.json());
 
+    // Setup authenticated client with cookie jar
     const jar = new CookieJar();
     const client = wrapper(
       axios.create({
@@ -19,6 +20,7 @@ export async function POST(request: Request) {
       })
     );
 
+    // Get login page and extract CSRF token
     const loginPage = await client.get(
       "/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
     );
@@ -32,6 +34,7 @@ export async function POST(request: Request) {
       throw new Error("Could not extract login token");
     }
 
+    // Prepare login payload
     const payload = {
       __RequestVerificationToken: token,
       SCKTY00328510CustomEnabled: "False",
@@ -44,7 +47,8 @@ export async function POST(request: Request) {
       "LogOnDetails.Password": password,
     };
 
-    const authResponse = await client.post(
+    // Submit login form (expects 302 redirect on success)
+    await client.post(
       "/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f",
       new URLSearchParams(payload).toString(),
       {
@@ -53,6 +57,7 @@ export async function POST(request: Request) {
       }
     );
 
+    // Check for authentication cookie
     const cookies = await jar.getCookies("https://hac.friscoisd.org");
     const authCookie = cookies.find((c) => c.key === ".AuthCookie");
 
@@ -60,18 +65,19 @@ export async function POST(request: Request) {
       throw new Error("Authentication failed");
     }
 
+    // Return session data
     return Response.json({
       success: true,
       data: {
         success: true,
         session: {
-          name: username,
           cookies: cookies.map((c) => c.toString()).join("; "),
         },
       },
       message: "Authentication successful",
     } satisfies ApiResponse<AuthResponse>);
   } catch (error: any) {
+    // Handle login failure (200 status = returned to login page)
     if (error.response?.status === 200) {
       return Response.json(
         {
@@ -79,10 +85,13 @@ export async function POST(request: Request) {
           error: "AUTHENTICATION_FAILED",
           message: "Invalid username or password",
         } satisfies ApiResponse,
-        { status: 401 }
+        {
+          status: 401,
+        }
       );
     }
 
+    // Handle other errors
     return Response.json(
       {
         success: false,
@@ -90,7 +99,9 @@ export async function POST(request: Request) {
         message:
           error instanceof Error ? error.message : "Authentication failed",
       } satisfies ApiResponse,
-      { status: 401 }
+      {
+        status: 401,
+      }
     );
   }
 }
