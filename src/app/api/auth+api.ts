@@ -69,7 +69,6 @@ export async function POST(request: Request) {
     return Response.json({
       success: true,
       data: {
-        success: true,
         session: {
           cookies: cookies.map((c) => c.toString()).join("; "),
         },

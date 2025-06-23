@@ -34,14 +34,14 @@ export default function AppLayout() {
         name="index"
         options={{
           title: "Home",
-          // tabBarIcon: () => ({ sfSymbol: "house" }),
+          tabBarIcon: () => ({ sfSymbol: "house" }),
         }}
       />
       <Tabs.Screen
         name="grades"
         options={{
           title: "Grades",
-          // tabBarIcon: () => ({ sfSymbol: "chart.bar" }),
+          tabBarIcon: () => ({ sfSymbol: "chart.bar" }),
         }}
       />
     </Tabs>

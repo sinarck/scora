@@ -49,8 +49,6 @@ export type AuthError =
  * Authentication response from HAC login attempt
  */
 export interface AuthResponse {
-  /** Whether authentication was successful */
-  success: boolean;
   /** Session data if successful */
   session?: SessionData;
   /** Error type if failed */

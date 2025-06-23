@@ -1,4 +1,3 @@
-import { useLoginPageQuery } from "@/hooks/query/useLoginPageQuery";
 import { useSession } from "@/lib/auth/auth-context";
 import tw from "@/lib/ui/tw";
 import { loginSchema } from "@/schema/auth";
@@ -22,7 +21,6 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function SignIn() {
   const { signIn } = useSession();
-  const { isError, isLoading: isPageLoading } = useLoginPageQuery();
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const {
@@ -52,92 +50,55 @@ export default function SignIn() {
       } else {
         setError("root", {
           type: "manual",
-          message: "Invalid username or password. Please try again.",
+          message: "Invalid credentials",
         });
       }
     } catch (error) {
       console.error("Login error:", error);
+
       setError("root", {
         type: "manual",
-        message: "An unexpected error occurred. Please try again.",
+        message: "Connection error",
       });
     } finally {
       setIsSubmitting(false);
     }
   };
 
-  if (isPageLoading) {
-    return (
-      <View
-        style={tw`flex-1 justify-center items-center bg-gray-50 dark:bg-gray-900`}
-      >
-        <ActivityIndicator size="large" color="#3b82f6" />
-        <Text style={tw`mt-4 text-gray-600 dark:text-gray-400`}>
-          Loading login page...
-        </Text>
-      </View>
-    );
-  }
-
-  if (isError) {
-    return (
-      <View
-        style={tw`flex-1 justify-center items-center bg-gray-50 dark:bg-gray-900`}
-      >
-        <Text style={tw`text-red-500 text-center px-6`}>
-          Failed to load login page. Please check your connection and try again.
-        </Text>
-        <TouchableOpacity
-          style={tw`mt-4 px-6 py-3 bg-blue-500 rounded-lg`}
-          onPress={() => window.location.reload()}
-        >
-          <Text style={tw`text-white font-semibold`}>Retry</Text>
-        </TouchableOpacity>
-      </View>
-    );
-  }
-
   return (
     <KeyboardAvoidingView
-      style={tw`flex-1 bg-gray-50 dark:bg-gray-900`}
+      style={tw`flex-1 bg-black`}
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView
         contentContainerStyle={tw`flex-grow justify-center px-6`}
         keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
       >
-        <View style={tw`bg-white dark:bg-gray-800 rounded-2xl p-8`}>
-          {/* Header */}
-          <View style={tw`mb-8`}>
-            <Text
-              style={tw`text-3xl font-bold text-gray-900 dark:text-white text-center mb-2`}
+        <View style={tw`max-w-sm w-full mx-auto`}>
+          {/* Logo/Brand */}
+          <View style={tw`items-center mb-12`}>
+            <View
+              style={tw`w-16 h-16 bg-blue-500 rounded-2xl items-center justify-center mb-4`}
             >
-              Welcome Back
-            </Text>
-            <Text style={tw`text-gray-600 dark:text-gray-400 text-center`}>
-              Sign in to access your grades
-            </Text>
+              <Text style={tw`text-white text-2xl font-bold`}>S</Text>
+            </View>
+            <Text style={tw`text-white text-2xl font-bold mb-2`}>Scora</Text>
+            <Text style={tw`text-gray-400 text-sm`}>Access your grades</Text>
           </View>
 
           {/* Form */}
-          <View style={tw`gap-6`}>
+          <View>
             {/* Username Field */}
-            <View>
-              <Text
-                style={tw`text-sm font-medium text-gray-700 dark:text-gray-300 mb-2`}
-              >
-                Username
-              </Text>
+            <View style={tw`mb-6`}>
               <Controller
                 control={control}
                 name="username"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    style={tw`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                      errors.username ? "border-red-500" : ""
-                    }`}
-                    placeholder="Enter your username"
-                    placeholderTextColor="#9ca3af"
+                    style={tw`w-full px-4 py-4 bg-gray-900 border border-gray-800 rounded-xl text-white text-base`}
+                    placeholder="Username"
+                    placeholderTextColor="#6b7280"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
@@ -149,29 +110,22 @@ export default function SignIn() {
                 )}
               />
               {errors.username && (
-                <Text style={tw`text-red-500 text-sm mt-1`}>
+                <Text style={tw`text-red-400 text-sm mt-2 ml-1`}>
                   {errors.username.message}
                 </Text>
               )}
             </View>
 
             {/* Password Field */}
-            <View>
-              <Text
-                style={tw`text-sm font-medium text-gray-700 dark:text-gray-300 mb-2`}
-              >
-                Password
-              </Text>
+            <View style={tw`mb-6`}>
               <Controller
                 control={control}
                 name="password"
                 render={({ field: { onChange, onBlur, value } }) => (
                   <TextInput
-                    style={tw`w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white ${
-                      errors.password ? "border-red-500" : ""
-                    }`}
-                    placeholder="Enter your password"
-                    placeholderTextColor="#9ca3af"
+                    style={tw`w-full px-4 py-4 bg-gray-900 border border-gray-800 rounded-xl text-white text-base`}
+                    placeholder="Password"
+                    placeholderTextColor="#6b7280"
                     onChangeText={onChange}
                     onBlur={onBlur}
                     value={value}
@@ -184,18 +138,18 @@ export default function SignIn() {
                 )}
               />
               {errors.password && (
-                <Text style={tw`text-red-500 text-sm mt-1`}>
+                <Text style={tw`text-red-400 text-sm mt-2 ml-1`}>
                   {errors.password.message}
                 </Text>
               )}
             </View>
 
-            {/* Root Error */}
+            {/* Error Message */}
             {errors.root && (
               <View
-                style={tw`bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg p-3`}
+                style={tw`bg-red-900 border border-red-800 rounded-xl p-4 mb-6`}
               >
-                <Text style={tw`text-red-600 dark:text-red-400 text-sm`}>
+                <Text style={tw`text-red-400 text-sm text-center`}>
                   {errors.root.message}
                 </Text>
               </View>
@@ -203,17 +157,15 @@ export default function SignIn() {
 
             {/* Submit Button */}
             <TouchableOpacity
-              style={tw`w-full py-4 bg-blue-500 rounded-lg ${
-                isSubmitting ? "opacity-50" : ""
-              }`}
+              style={tw`w-full py-4 bg-blue-600 rounded-xl`}
               onPress={handleSubmit(onSubmit)}
               disabled={isSubmitting}
             >
               {isSubmitting ? (
                 <View style={tw`flex-row items-center justify-center`}>
                   <ActivityIndicator size="small" color="white" />
-                  <Text style={tw`text-white font-semibold ml-2`}>
-                    Signing In...
+                  <Text style={tw`text-white font-semibold ml-3`}>
+                    Signing in...
                   </Text>
                 </View>
               ) : (
@@ -225,13 +177,9 @@ export default function SignIn() {
           </View>
 
           {/* Footer */}
-          <View
-            style={tw`mt-8 pt-6 border-t border-gray-200 dark:border-gray-700`}
-          >
-            <Text
-              style={tw`text-gray-500 dark:text-gray-400 text-center text-sm`}
-            >
-              Your credentials are encrypted and secure
+          <View style={tw`mt-8 pt-6 border-t border-gray-800`}>
+            <Text style={tw`text-gray-500 text-center text-xs`}>
+              Secure authentication via HTTPS
             </Text>
           </View>
         </View>
