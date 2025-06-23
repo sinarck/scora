@@ -6,9 +6,9 @@
  */
 export interface SessionData {
   /** Session cookies for authenticated HAC requests */
-  cookies?: string;
+  cookies: string;
   /** User's display name from HAC */
-  userName: string;
+  name: string;
 }
 
 /**
