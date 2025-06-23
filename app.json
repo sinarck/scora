@@ -16,6 +16,7 @@
       }
     },
     "android": {
+      "package": "dev.scora",
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
@@ -86,3 +87,4 @@
     }
   }
 }
+

@@ -106,7 +106,7 @@ export default function SignIn() {
         contentContainerStyle={tw`flex-grow justify-center px-6`}
         keyboardShouldPersistTaps="handled"
       >
-        <View style={tw`bg-white dark:bg-gray-800 rounded-2xl p-8 shadow-lg`}>
+        <View style={tw`bg-white dark:bg-gray-800 rounded-2xl p-8`}>
           {/* Header */}
           <View style={tw`mb-8`}>
             <Text

@@ -16,7 +16,7 @@ export default function AppLayout() {
   return (
     <Tabs
       screenListeners={{
-        tabPress: (e) => {
+        tabPress: (e: any) => {
           const targetTab = e.target?.split("-")[0]; // Extract tab name from target
 
           // Only trigger haptic if switching to a different tab
@@ -34,14 +34,14 @@ export default function AppLayout() {
         name="index"
         options={{
           title: "Home",
-          tabBarIcon: () => ({ sfSymbol: "house" }),
+          // tabBarIcon: () => ({ sfSymbol: "house" }),
         }}
       />
       <Tabs.Screen
         name="grades"
         options={{
           title: "Grades",
-          tabBarIcon: () => ({ sfSymbol: "chart.bar" }),
+          // tabBarIcon: () => ({ sfSymbol: "chart.bar" }),
         }}
       />
     </Tabs>

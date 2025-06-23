@@ -3,7 +3,7 @@ import type {
   LoginCredentials,
   LoginPageData,
 } from "@/types/auth";
-import { load } from "cheerio";
+// import { load } from "cheerio";
 
 // Base URL for HAC (Frisco ISD)
 const HAC_BASE_URL = "https://hac.friscoisd.org";
@@ -15,10 +15,25 @@ export async function fetchLoginPage(): Promise<LoginPageData> {
     );
 
     const loginPageText = await response.text();
-    const $ = load(loginPageText);
-    const tokenInput = $('input[name="__RequestVerificationToken"]');
 
-    const token = tokenInput.attr("value");
+    // Try multiple regex patterns to find the token
+    const patterns = [
+      /name="__RequestVerificationToken"\s+value="([^"]+)"/,
+      /name='__RequestVerificationToken'\s+value='([^']+)'/,
+      /value="([^"]+)"[^>]*name="__RequestVerificationToken"/,
+      /value='([^']+)'[^>]*name='__RequestVerificationToken'/,
+      /__RequestVerificationToken[^>]*value="([^"]+)"/,
+      /__RequestVerificationToken[^>]*value='([^']+)'/,
+    ];
+
+    let token = null;
+    for (const pattern of patterns) {
+      const match = loginPageText.match(pattern);
+      if (match) {
+        token = match[1];
+        break;
+      }
+    }
 
     if (!token) {
       throw new Error("TOKEN_EXTRACTION_FAILED");

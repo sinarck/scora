@@ -26,7 +26,6 @@
     "axios": "^1.10.0",
     "babel-plugin-react-compiler": "^19.0.0-beta-af1b7da-20250417",
     "burnt": "^0.13.0",
-    "cheerio": "^1.1.0",
     "eslint-plugin-react-compiler": "^19.1.0-rc.2",
     "expo": "53.0.12",
     "expo-application": "~6.1.4",
