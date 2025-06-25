@@ -1,6 +1,5 @@
+import { TextInput } from "@/components/text-input";
 import { useSession } from "@/lib/auth/auth-context";
-import { TextInput } from "@/lib/ui/text-input";
-import tw from "@/lib/ui/tw";
 import { loginSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { router } from "expo-router";
@@ -67,24 +66,26 @@ export default function SignIn() {
 
   return (
     <KeyboardAvoidingView
-      style={tw`flex-1 bg-black`}
+      className="flex-1"
       behavior={Platform.OS === "ios" ? "padding" : "height"}
     >
       <ScrollView
-        contentContainerStyle={tw`flex-grow justify-center px-6`}
+        contentContainerStyle={{
+          flexGrow: 1,
+          justifyContent: "center",
+          paddingHorizontal: 24,
+        }}
         keyboardShouldPersistTaps="handled"
         showsVerticalScrollIndicator={false}
       >
-        <View style={tw`max-w-sm w-full mx-auto`}>
+        <View className="max-w-sm w-full mx-auto">
           {/* Logo/Brand */}
-          <View style={tw`items-center mb-12`}>
-            <View
-              style={tw`w-16 h-16 bg-blue-500 rounded-2xl items-center justify-center mb-4`}
-            >
-              <Text style={tw`text-white text-2xl font-bold`}>S</Text>
+          <View className="items-center mb-12">
+            <View className="w-16 h-16 bg-blue-500 rounded-2xl items-center justify-center mb-4">
+              <Text className="text-white text-2xl font-bold">S</Text>
             </View>
-            <Text style={tw`text-white text-2xl font-bold mb-2`}>Scora</Text>
-            <Text style={tw`text-gray-400 text-sm`}>Access your grades</Text>
+            <Text className="text-white text-2xl font-bold mb-2">Scora</Text>
+            <Text className="text-gray-400 text-sm">Access your grades</Text>
           </View>
 
           {/* Form */}
@@ -130,10 +131,8 @@ export default function SignIn() {
 
             {/* Error Message */}
             {errors.root && (
-              <View
-                style={tw`bg-red-900 border border-red-800 rounded-xl p-4 mb-6`}
-              >
-                <Text style={tw`text-red-400 text-sm text-center`}>
+              <View className="bg-red-900 border border-red-800 rounded-xl p-4 mb-6">
+                <Text className="text-red-400 text-sm text-center">
                   {errors.root.message}
                 </Text>
               </View>
@@ -141,19 +140,19 @@ export default function SignIn() {
 
             {/* Submit Button */}
             <TouchableOpacity
-              style={tw`w-full py-4 bg-blue-600 rounded-xl`}
+              className="w-full py-4 bg-blue-600 rounded-xl"
               onPress={handleSubmit(onSubmit)}
               disabled={isSubmitting}
             >
               {isSubmitting ? (
-                <View style={tw`flex-row items-center justify-center`}>
+                <View className="flex-row items-center justify-center">
                   <ActivityIndicator size="small" color="white" />
-                  <Text style={tw`text-white font-semibold ml-3`}>
+                  <Text className="text-white font-semibold ml-3">
                     Signing in...
                   </Text>
                 </View>
               ) : (
-                <Text style={tw`text-white font-semibold text-center text-lg`}>
+                <Text className="text-white font-semibold text-center text-lg">
                   Sign In
                 </Text>
               )}
@@ -161,8 +160,8 @@ export default function SignIn() {
           </View>
 
           {/* Footer */}
-          <View style={tw`mt-8 pt-6 border-t border-gray-800`}>
-            <Text style={tw`text-gray-500 text-center text-xs`}>
+          <View className="mt-8 pt-6 border-t border-gray-800">
+            <Text className="text-gray-500 text-center text-xs">
               Secure authentication via HTTPS
             </Text>
           </View>
@@ -171,3 +170,4 @@ export default function SignIn() {
     </KeyboardAvoidingView>
   );
 }
+
