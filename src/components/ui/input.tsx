@@ -13,9 +13,9 @@ const Input = React.forwardRef<
     <TextInput
       ref={ref}
       className={cn(
-        "font-body web:flex h-12 native:h-14 web:w-full rounded-lg border-neutral-200 bg-neutral-100 dark:border-neutral-800 shadow-lg border dark:bg-neutral-900 px-3 web:py-2 text-base lg:text-sm native:text-lg native:leading-[1.25] text-neutral-950 dark:text-neutral-100 web:ring-offset-background file:border-0 file:bg-transparent file:font-medium web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-blue-500 web:focus-visible:ring-offset-2",
+        "font-body native:h-14 native:text-lg native:leading-[1.25] text-neutral-950 file:bg-transparent h-12 rounded-lg border border-neutral-200 bg-neutral-100 px-3 text-base shadow-lg file:border-0 file:font-medium web:flex web:w-full web:py-2 web:ring-offset-background web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-blue-500 web:focus-visible:ring-offset-2 lg:text-sm dark:border-neutral-800 dark:bg-neutral-900 dark:text-neutral-100",
         props.editable === false && "opacity-50 web:cursor-not-allowed",
-        className
+        className,
       )}
       placeholderClassName={cn("text-muted", placeholderClassName)}
       {...props}
@@ -26,4 +26,3 @@ const Input = React.forwardRef<
 Input.displayName = "Input";
 
 export default Input;
-

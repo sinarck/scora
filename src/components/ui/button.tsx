@@ -32,7 +32,7 @@ const Button = React.forwardRef<
     disabled,
     ...props
   },
-  ref
+  ref,
 ) {
   const variantStyles = {
     default:
@@ -90,10 +90,10 @@ const Button = React.forwardRef<
       className={cn(
         "flex-row items-center justify-center rounded-lg shadow-lg",
         "web:focus-visible:outline-none web:focus-visible:ring-2 web:focus-visible:ring-blue-500 web:focus-visible:ring-offset-2",
-        "disabled:opacity-50 disabled:web:cursor-not-allowed disabled:border-blue-500",
+        "disabled:border-blue-500 disabled:opacity-50 disabled:web:cursor-not-allowed",
         variantStyles[variant],
         sizeStyles[size],
-        className
+        className,
       )}
       accessibilityRole="button"
       accessibilityState={{ disabled: isDisabled }}
@@ -107,7 +107,7 @@ const Button = React.forwardRef<
           className={cn(
             textVariantStyles[variant],
             textSizeStyles[size],
-            textClassName
+            textClassName,
           )}
         >
           {children}
@@ -120,4 +120,3 @@ const Button = React.forwardRef<
 });
 
 export default Button;
-

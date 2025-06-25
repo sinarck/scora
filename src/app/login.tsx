@@ -9,11 +9,10 @@ import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { z } from "zod";
 
-
 export default function Login() {
   const { signIn, error, isSigningIn } = useSession();
   const passwordRef = useRef<any>(null);
-  
+
   const {
     control,
     handleSubmit,
@@ -39,14 +38,17 @@ export default function Login() {
       toast({
         title: "Successfully logged in",
         preset: "done",
-        haptic: "success"
-      })
+        haptic: "success",
+      });
     }
   };
 
-  const handleUsernameChange = (text: string, onChange: (value: string) => void) => {
+  const handleUsernameChange = (
+    text: string,
+    onChange: (value: string) => void,
+  ) => {
     onChange(text);
-    
+
     // Auto-focus password field after 6 characters
     if (text.length === 6) {
       passwordRef.current?.focus();
@@ -59,8 +61,8 @@ export default function Login() {
       keyboardShouldPersistTaps="handled"
       scrollEnabled={false}
     >
-      <View className="flex-1 items-center justify-center dark:bg-background p-page">
-        <View className="w-full max-w-md flex flex-col gap-4">
+      <View className="flex-1 items-center justify-center p-page dark:bg-background">
+        <View className="flex w-full max-w-md flex-col gap-4">
           <Controller
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
@@ -112,4 +114,3 @@ export default function Login() {
     </ScrollView>
   );
 }
-

@@ -33,7 +33,7 @@ export function useSession() {
   if (!value) {
     throw new Error("useSession must be wrapped in a <SessionProvider />");
   }
-  
+
   return value;
 }
 
@@ -106,4 +106,3 @@ export function SessionProvider({ children }: PropsWithChildren) {
     </AuthContext.Provider>
   );
 }
-

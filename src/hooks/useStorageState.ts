@@ -9,14 +9,14 @@ type UseStateHook<T> = [[boolean, T | null], (value: T | null) => void];
  * @template T - The type of the state value
  */
 function useAsyncState<T>(
-  initialValue: [boolean, T | null] = [true, null]
+  initialValue: [boolean, T | null] = [true, null],
 ): UseStateHook<T> {
   return useReducer(
     (
       state: [boolean, T | null],
-      action: T | null = null
+      action: T | null = null,
     ): [boolean, T | null] => [false, action],
-    initialValue
+    initialValue,
   ) as UseStateHook<T>;
 }
 
@@ -90,7 +90,7 @@ export function useStorageState(key: string): UseStateHook<string> {
         }
       }
     },
-    [key, setState]
+    [key, setState],
   );
 
   return [state, setValue];
@@ -140,9 +140,8 @@ export function useObjectStorageState<T>(key: string): UseStateHook<T> {
         console.error(`Failed to serialize object for key "${key}":`, error);
       }
     },
-    [key, setStringValue, setState]
+    [key, setStringValue, setState],
   );
 
   return [state, setValue];
 }
-
