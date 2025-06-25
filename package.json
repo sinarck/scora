@@ -5,8 +5,8 @@
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
-    "android": "expo start --android",
-    "ios": "expo start --ios",
+    "android": "expo run:android",
+    "ios": "expo run:ios",
     "web": "expo start --web",
     "lint": "expo lint"
   },
@@ -68,6 +68,7 @@
     "@babel/core": "^7.25.2",
     "@tanstack/eslint-plugin-query": "^5.78.0",
     "@types/react": "~19.0.10",
+    "eas-build-cache-provider": "^16.4.2",
     "eslint": "^9.25.0",
     "eslint-config-expo": "~9.2.0",
     "typescript": "~5.8.3"

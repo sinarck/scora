@@ -1,4 +1,5 @@
 import { useSession } from "@/lib/auth/auth-context";
+import { TextInput } from "@/lib/ui/text-input";
 import tw from "@/lib/ui/tw";
 import { loginSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -11,7 +12,6 @@ import {
   Platform,
   ScrollView,
   Text,
-  TextInput,
   TouchableOpacity,
   View,
 } from "react-native";
@@ -90,59 +90,43 @@ export default function SignIn() {
           {/* Form */}
           <View>
             {/* Username Field */}
-            <View style={tw`mb-6`}>
-              <Controller
-                control={control}
-                name="username"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={tw`w-full px-4 py-4 bg-gray-900 border border-gray-800 rounded-xl text-white text-base`}
-                    placeholder="Username"
-                    placeholderTextColor="#6b7280"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    autoComplete="username"
-                    textContentType="username"
-                  />
-                )}
-              />
-              {errors.username && (
-                <Text style={tw`text-red-400 text-sm mt-2 ml-1`}>
-                  {errors.username.message}
-                </Text>
+            <Controller
+              control={control}
+              name="username"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Username"
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  autoComplete="username"
+                  textContentType="username"
+                  error={errors.username?.message}
+                />
               )}
-            </View>
+            />
 
             {/* Password Field */}
-            <View style={tw`mb-6`}>
-              <Controller
-                control={control}
-                name="password"
-                render={({ field: { onChange, onBlur, value } }) => (
-                  <TextInput
-                    style={tw`w-full px-4 py-4 bg-gray-900 border border-gray-800 rounded-xl text-white text-base`}
-                    placeholder="Password"
-                    placeholderTextColor="#6b7280"
-                    onChangeText={onChange}
-                    onBlur={onBlur}
-                    value={value}
-                    secureTextEntry
-                    autoCapitalize="none"
-                    autoCorrect={false}
-                    autoComplete="password"
-                    textContentType="password"
-                  />
-                )}
-              />
-              {errors.password && (
-                <Text style={tw`text-red-400 text-sm mt-2 ml-1`}>
-                  {errors.password.message}
-                </Text>
+            <Controller
+              control={control}
+              name="password"
+              render={({ field: { onChange, onBlur, value } }) => (
+                <TextInput
+                  placeholder="Password"
+                  onChangeText={onChange}
+                  onBlur={onBlur}
+                  value={value}
+                  secureTextEntry
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  autoComplete="password"
+                  textContentType="password"
+                  error={errors.password?.message}
+                />
               )}
-            </View>
+            />
 
             {/* Error Message */}
             {errors.root && (

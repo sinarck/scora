@@ -3,7 +3,7 @@ import tw from "@/lib/ui/tw";
 import { Text, TouchableOpacity, View } from "react-native";
 
 export default function Index() {
-  const { signOut } = useSession();
+  const { session, signOut } = useSession();
 
   return (
     <View
@@ -15,6 +15,10 @@ export default function Index() {
 
       <Text style={tw`text-gray-600 dark:text-gray-400 text-center mb-8`}>
         Your grades and academic progress at your fingertips
+      </Text>
+
+      <Text style={tw`text-gray-600 dark:text-gray-400 text-center mb-8`}>
+        {JSON.stringify(session?.cookies, null, 2)}
       </Text>
 
       <TouchableOpacity

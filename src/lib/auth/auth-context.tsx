@@ -1,7 +1,6 @@
 import { useObjectStorageState } from "@/hooks/useStorageState";
 import { ApiResponse } from "@/types/api";
 import { AuthResponse, LoginCredentials, SessionData } from "@/types/auth";
-import axios from "axios";
 import { createContext, use, type PropsWithChildren } from "react";
 
 /**
@@ -43,19 +42,20 @@ export function SessionProvider({ children }: PropsWithChildren) {
     useObjectStorageState<SessionData>("session");
 
   const signIn = async ({ username, password }: LoginCredentials) => {
-    const { data, status } = await axios.post<ApiResponse<AuthResponse>>(
-      "http://192.168.86.230:8081/api/auth",
-      {
-        username,
-        password,
-      }
-    );
+    const response = await fetch("/api/auth", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ username, password }),
+    });
 
-    if (status !== 200) {
-      console.error(data);
+    if (response.status !== 200) {
+      console.error(await response.text());
       throw new Error("Failed to sign in");
     }
 
+    const data: ApiResponse<AuthResponse> = await response.json();
     return data.success && data.data?.session
       ? (setSession(data.data.session), true)
       : false;

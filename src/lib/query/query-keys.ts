@@ -9,6 +9,12 @@ export const queries = createQueryKeyStore({
       queryKey: [sessionId],
     }),
   },
+  grades: {
+    all: {
+      queryKey: null,
+    },
+  },
 });
 
 export type QueryKeys = typeof queries;
+

@@ -77,7 +77,8 @@
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true,
-      "reactCanary": true
+      "reactCanary": true,
+      "buildCacheProvider": "eas"
     },
     "extra": {
       "router": {},
