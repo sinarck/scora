@@ -1,17 +1,19 @@
 import Button from "@/components/ui/button";
 import Input from "@/components/ui/input";
-import { useHaptics } from "@/hooks/useHaptics";
 import { useSession } from "@/lib/auth/auth-context";
 import { loginSchema } from "@/schema/auth";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "burnt";
+import { useRef } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { ScrollView, Text, View } from "react-native";
 import { z } from "zod";
 
+
 export default function Login() {
-  const { signIn, error } = useSession();
-  const success = useHaptics("success");
-  const failure = useHaptics("error");
+  const { signIn, error, isSigningIn } = useSession();
+  const passwordRef = useRef<any>(null);
+  
   const {
     control,
     handleSubmit,
@@ -34,9 +36,20 @@ export default function Login() {
     });
 
     if (successful) {
-      success();
-    } else {
-      failure();
+      toast({
+        title: "Successfully logged in",
+        preset: "done",
+        haptic: "success"
+      })
+    }
+  };
+
+  const handleUsernameChange = (text: string, onChange: (value: string) => void) => {
+    onChange(text);
+    
+    // Auto-focus password field after 6 characters
+    if (text.length === 6) {
+      passwordRef.current?.focus();
     }
   };
 
@@ -55,9 +68,10 @@ export default function Login() {
                 placeholder="Username"
                 keyboardType="number-pad"
                 onBlur={onBlur}
-                onChangeText={onChange}
+                onChangeText={(text) => handleUsernameChange(text, onChange)}
                 value={value}
                 autoFocus
+                editable={!isSigningIn}
               />
             )}
             name="username"
@@ -70,6 +84,7 @@ export default function Login() {
             control={control}
             render={({ field: { onChange, onBlur, value } }) => (
               <Input
+                ref={passwordRef}
                 placeholder="Password"
                 secureTextEntry
                 returnKeyType="done"
@@ -78,6 +93,7 @@ export default function Login() {
                 onChangeText={onChange}
                 value={value}
                 onSubmitEditing={handleSubmit(onSubmit)}
+                editable={!isSigningIn}
               />
             )}
             name="password"
@@ -88,7 +104,9 @@ export default function Login() {
 
           {error && <Text className="text-red-500">{error.message}</Text>}
 
-          <Button onPress={handleSubmit(onSubmit)}>Login</Button>
+          <Button onPress={handleSubmit(onSubmit)} loading={isSigningIn}>
+            Login
+          </Button>
         </View>
       </View>
     </ScrollView>

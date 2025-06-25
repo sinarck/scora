@@ -1,4 +1,4 @@
-import { Calendar } from "@/components/calendar";
+import { Calendar } from "@/components/ui/calendar";
 import { SafeAreaView, ScrollView } from "react-native";
 
 export default function Index() {

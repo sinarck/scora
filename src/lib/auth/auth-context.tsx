@@ -12,12 +12,14 @@ const AuthContext = createContext<{
   signOut: () => void;
   session?: SessionData | null;
   isLoading: boolean;
+  isSigningIn: boolean;
   error: ApiError | null;
 }>({
   signIn: async () => false,
   signOut: () => null,
   session: null,
   isLoading: false,
+  isSigningIn: false,
   error: null,
 });
 
@@ -27,9 +29,11 @@ const AuthContext = createContext<{
  */
 export function useSession() {
   const value = use(AuthContext);
+
   if (!value) {
     throw new Error("useSession must be wrapped in a <SessionProvider />");
   }
+  
   return value;
 }
 
@@ -38,12 +42,17 @@ export function useSession() {
  * Manages session state using secure storage with automatic JSON serialization.
  */
 export function SessionProvider({ children }: PropsWithChildren) {
-  const [[isLoading, session], setSession] =
+  const [[isStorageLoading, session], setSession] =
     useObjectStorageState<SessionData>("session");
+  const [isSigningIn, setIsSigningIn] = useState(false);
   const [error, setError] = useState<ApiError | null>(null);
+
+  // Combined loading state: true if either storage is loading or user is signing in
+  const isLoading = isStorageLoading || isSigningIn;
 
   const signIn = async ({ username, password }: LoginCredentials) => {
     try {
+      setIsSigningIn(true);
       setError(null); // Clear any previous errors
 
       const response = await fetch("/api/auth", {
@@ -79,17 +88,19 @@ export function SessionProvider({ children }: PropsWithChildren) {
           err instanceof Error ? err.message : "Network connection failed",
       });
       return false;
+    } finally {
+      setIsSigningIn(false);
     }
   };
 
   const signOut = () => {
     setSession(null);
-    setError(null); // Clear errors on sign out
+    setError(null);
   };
 
   return (
     <AuthContext.Provider
-      value={{ signIn, signOut, session, isLoading, error }}
+      value={{ signIn, signOut, session, isLoading, isSigningIn, error }}
     >
       {children}
     </AuthContext.Provider>
