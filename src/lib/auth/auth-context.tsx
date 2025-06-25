@@ -27,11 +27,9 @@ const AuthContext = createContext<{
  */
 export function useSession() {
   const value = use(AuthContext);
-
   if (!value) {
     throw new Error("useSession must be wrapped in a <SessionProvider />");
   }
-
   return value;
 }
 
@@ -50,13 +48,10 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
       const response = await fetch("/api/auth", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ username, password }),
       });
 
-      // Always try to parse as JSON since your API returns JSON even on errors
       const data: ApiResponse<AuthResponse> = await response.json();
 
       if (!data.success) {
@@ -66,25 +61,23 @@ export function SessionProvider({ children }: PropsWithChildren) {
       }
 
       if (!data.data?.session) {
-        const apiError: ApiError = {
+        setError({
           success: false,
           error: "INVALID_RESPONSE",
           message: "No session data received",
-        };
-        setError(apiError);
+        });
         return false;
       }
 
       setSession(data.data.session);
       return true;
     } catch (err) {
-      const apiError: ApiError = {
+      setError({
         success: false,
         error: "NETWORK_ERROR",
         message:
           err instanceof Error ? err.message : "Network connection failed",
-      };
-      setError(apiError);
+      });
       return false;
     }
   };
@@ -96,13 +89,7 @@ export function SessionProvider({ children }: PropsWithChildren) {
 
   return (
     <AuthContext.Provider
-      value={{
-        signIn,
-        signOut,
-        session,
-        isLoading,
-        error,
-      }}
+      value={{ signIn, signOut, session, isLoading, error }}
     >
       {children}
     </AuthContext.Provider>

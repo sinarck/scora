@@ -11,6 +11,7 @@ import { z } from "zod";
 export default function Login() {
   const { signIn, error } = useSession();
   const success = useHaptics("success");
+  const failure = useHaptics("error");
   const {
     control,
     handleSubmit,
@@ -34,6 +35,8 @@ export default function Login() {
 
     if (successful) {
       success();
+    } else {
+      failure();
     }
   };
 
@@ -74,6 +77,7 @@ export default function Login() {
                 onBlur={onBlur}
                 onChangeText={onChange}
                 value={value}
+                onSubmitEditing={handleSubmit(onSubmit)}
               />
             )}
             name="password"
