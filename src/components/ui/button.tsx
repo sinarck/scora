@@ -58,10 +58,10 @@ const Button = React.forwardRef<
   };
 
   const textSizeStyles = {
-    default: "text-base native:text-lg",
-    sm: "text-sm native:text-base",
-    lg: "text-lg native:text-xl",
-    icon: "text-base native:text-lg",
+    default: "font-body text-base native:text-lg",
+    sm: "font-body text-sm native:text-base",
+    lg: "font-body text-lg native:text-xl",
+    icon: "font-body text-base native:text-lg",
   };
 
   return (

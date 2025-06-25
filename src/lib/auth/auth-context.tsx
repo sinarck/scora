@@ -1,7 +1,7 @@
 import { useObjectStorageState } from "@/hooks/useStorageState";
-import { ApiResponse } from "@/types/api";
+import { ApiError, ApiResponse } from "@/types/api";
 import { AuthResponse, LoginCredentials, SessionData } from "@/types/auth";
-import { createContext, use, type PropsWithChildren } from "react";
+import { createContext, use, useState, type PropsWithChildren } from "react";
 
 /**
  * Authentication context that provides session management functionality.
@@ -12,11 +12,13 @@ const AuthContext = createContext<{
   signOut: () => void;
   session?: SessionData | null;
   isLoading: boolean;
+  error: ApiError | null;
 }>({
   signIn: async () => false,
   signOut: () => null,
   session: null,
   isLoading: false,
+  error: null,
 });
 
 /**
@@ -40,37 +42,70 @@ export function useSession() {
 export function SessionProvider({ children }: PropsWithChildren) {
   const [[isLoading, session], setSession] =
     useObjectStorageState<SessionData>("session");
+  const [error, setError] = useState<ApiError | null>(null);
 
   const signIn = async ({ username, password }: LoginCredentials) => {
-    const response = await fetch("/api/auth", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ username, password }),
-    });
+    try {
+      setError(null); // Clear any previous errors
 
-    if (response.status !== 200) {
-      console.error(await response.text());
-      throw new Error("Failed to sign in");
+      const response = await fetch("/api/auth", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      // Always try to parse as JSON since your API returns JSON even on errors
+      const data: ApiResponse<AuthResponse> = await response.json();
+
+      if (!data.success) {
+        // Use the ApiError directly from the API response
+        setError(data);
+        return false;
+      }
+
+      if (!data.data?.session) {
+        const apiError: ApiError = {
+          success: false,
+          error: "INVALID_RESPONSE",
+          message: "No session data received",
+        };
+        setError(apiError);
+        return false;
+      }
+
+      setSession(data.data.session);
+      return true;
+    } catch (err) {
+      const apiError: ApiError = {
+        success: false,
+        error: "NETWORK_ERROR",
+        message:
+          err instanceof Error ? err.message : "Network connection failed",
+      };
+      setError(apiError);
+      return false;
     }
+  };
 
-    const data: ApiResponse<AuthResponse> = await response.json();
-    return data.success && data.data?.session
-      ? (setSession(data.data.session), true)
-      : false;
+  const signOut = () => {
+    setSession(null);
+    setError(null); // Clear errors on sign out
   };
 
   return (
     <AuthContext.Provider
       value={{
         signIn,
-        signOut: () => setSession(null),
+        signOut,
         session,
         isLoading,
+        error,
       }}
     >
       {children}
     </AuthContext.Provider>
   );
 }
+
