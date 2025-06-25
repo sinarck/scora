@@ -1,4 +1,4 @@
-import { queries } from "@/lib/query/query-keys";
+import { queries } from "@/lib/query/keys";
 import { fetchLoginPage } from "@/services/hac-api";
 import { useQuery } from "@tanstack/react-query";
 
@@ -8,3 +8,4 @@ export function useLoginPageQuery() {
     queryFn: fetchLoginPage,
   });
 }
+

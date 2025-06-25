@@ -1,5 +1,5 @@
 import { SessionProvider, useSession } from "@/lib/auth/auth-context";
-import { queryClient } from "@/lib/query/query-client";
+import { queryClient } from "@/lib/query/client";
 import { SplashScreenController } from "@/lib/ui/splash";
 import { useReactQueryDevTools } from "@dev-plugins/react-query";
 import { QueryClientProvider } from "@tanstack/react-query";

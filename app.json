@@ -9,7 +9,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "dev.scora",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
@@ -88,3 +88,4 @@
     }
   }
 }
+
