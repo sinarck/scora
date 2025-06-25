@@ -8,7 +8,7 @@ export default {
   theme: {
     extend: {
       padding: {
-        page: "12px",
+        page: "24px",
       },
     },
     fontFamily: {
