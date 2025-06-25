@@ -14,4 +14,3 @@ export const Tabs = withLayoutContext<
   TabNavigationState<ParamListBase>,
   NativeBottomTabNavigationEventMap
 >(BottomTabNavigator);
-

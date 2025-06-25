@@ -9,7 +9,7 @@
 function extractAttribute(
   html: string,
   selector: string,
-  attribute: string
+  attribute: string,
 ): string | null {
   // Convert cheerio-like selector to regex pattern
   const tagName = selector.match(/^(\w+)/)?.[1] || "input";
@@ -24,20 +24,20 @@ function extractAttribute(
       pattern = new RegExp(
         `<${tagName}[^>]*name=['"]${nameValue.replace(
           /[.*+?^${}()|[\]\\]/g,
-          "\\$&"
+          "\\$&",
         )}['"][^>]*${attribute}=['"]([^'"]+)['"][^>]*>`,
-        "i"
+        "i",
       );
     } else {
       pattern = new RegExp(
         `<${tagName}[^>]*${attribute}=['"]([^'"]+)['"][^>]*>`,
-        "i"
+        "i",
       );
     }
   } else {
     pattern = new RegExp(
       `<${tagName}[^>]*${attribute}=['"]([^'"]+)['"][^>]*>`,
-      "i"
+      "i",
     );
   }
 
@@ -83,9 +83,8 @@ export function parseHtml(html: string) {
  */
 export function extractFormToken(
   html: string,
-  tokenName: string = "__RequestVerificationToken"
+  tokenName: string = "__RequestVerificationToken",
 ): string | null {
   const $ = parseHtml(html);
   return $.attr(`input[name='${tokenName}']`, "value");
 }
-

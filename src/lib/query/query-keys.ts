@@ -17,4 +17,3 @@ export const queries = createQueryKeyStore({
 });
 
 export type QueryKeys = typeof queries;
-

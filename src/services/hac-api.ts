@@ -2,7 +2,7 @@ import { SessionData } from "@/types/auth";
 import { Course, GradesResponse } from "@/types/grades";
 
 export async function fetchGrades(
-  session: SessionData
+  session: SessionData,
 ): Promise<GradesResponse> {
   const response = await fetch(
     "https://hac.friscoisd.org/HomeAccess/Content/Student/Assignments.aspx",
@@ -12,7 +12,7 @@ export async function fetchGrades(
         "User-Agent":
           "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
       },
-    }
+    },
   );
 
   if (!response.ok) {
@@ -46,7 +46,7 @@ function parseGradesFromHtml(html: string): Course[] {
 
     // Parse course name
     const nameMatch = courseHtml.match(
-      /<a[^>]*class="[^"]*sg-header-heading[^"]*"[^>]*>([^<]+)<\/a>/
+      /<a[^>]*class="[^"]*sg-header-heading[^"]*"[^>]*>([^<]+)<\/a>/,
     );
     if (nameMatch) {
       course.name = nameMatch[1].trim();
@@ -54,7 +54,7 @@ function parseGradesFromHtml(html: string): Course[] {
 
     // Parse last updated
     const lastUpdatedMatch = courseHtml.match(
-      /<span[^>]*class="[^"]*sg-header-sub-heading[^"]*"[^>]*>\(Last Updated: ([^)]+)\)<\/span>/
+      /<span[^>]*class="[^"]*sg-header-sub-heading[^"]*"[^>]*>\(Last Updated: ([^)]+)\)<\/span>/,
     );
     if (lastUpdatedMatch) {
       course.lastUpdated = lastUpdatedMatch[1].trim();
@@ -62,7 +62,7 @@ function parseGradesFromHtml(html: string): Course[] {
 
     // Parse grade
     const gradeMatch = courseHtml.match(
-      /<span[^>]*class="[^"]*sg-header-heading sg-right[^"]*"[^>]*>Student Grades ([^<]+)%<\/span>/
+      /<span[^>]*class="[^"]*sg-header-heading sg-right[^"]*"[^>]*>Student Grades ([^<]+)%<\/span>/,
     );
     if (gradeMatch) {
       course.grade = gradeMatch[1].trim();
@@ -105,4 +105,3 @@ function parseGradesFromHtml(html: string): Course[] {
 
   return courses;
 }
-

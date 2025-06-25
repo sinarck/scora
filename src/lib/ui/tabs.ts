@@ -3,4 +3,3 @@
 
 // Platform-specific exports - bundler will automatically resolve to the correct file
 export { Tabs } from "./tabs.native";
-

@@ -17,17 +17,17 @@ export async function POST(request: Request) {
         baseURL: "https://hac.friscoisd.org",
         jar,
         timeout: 30000,
-      })
+      }),
     );
 
     // Get login page and extract CSRF token
     const loginPage = await client.get(
-      "/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f"
+      "/HomeAccess/Account/LogOn?ReturnUrl=%2fHomeAccess%2f",
     );
 
     const token = parseHtml(loginPage.data).attr(
       'input[name="__RequestVerificationToken"]',
-      "value"
+      "value",
     );
 
     if (!token) {
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       {
         maxRedirects: 0,
         validateStatus: (status) => status === 302,
-      }
+      },
     );
 
     // Check for authentication cookie
@@ -86,7 +86,7 @@ export async function POST(request: Request) {
         } satisfies ApiResponse,
         {
           status: 401,
-        }
+        },
       );
     }
 
@@ -100,8 +100,7 @@ export async function POST(request: Request) {
       } satisfies ApiResponse,
       {
         status: 401,
-      }
+      },
     );
   }
 }
-

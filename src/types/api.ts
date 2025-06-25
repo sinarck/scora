@@ -13,4 +13,3 @@ export interface ApiError {
 }
 
 export type ApiResponse<T = any> = ApiSuccess<T> | ApiError;
-

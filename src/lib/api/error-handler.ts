@@ -10,11 +10,14 @@ export class ApiErrorHandler {
    * Handle Zod validation errors
    */
   static handleValidationError(error: ZodError) {
-    const details = error.errors.reduce((acc, err) => {
-      const field = err.path.join(".");
-      acc[field] = err.message;
-      return acc;
-    }, {} as Record<string, string>);
+    const details = error.errors.reduce(
+      (acc, err) => {
+        const field = err.path.join(".");
+        acc[field] = err.message;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
 
     return ErrorResponses.validationError("Validation failed", details);
   }
@@ -36,7 +39,7 @@ export class ApiErrorHandler {
 
       return ErrorResponses.internalError(
         isDevelopment ? error.message : "An unexpected error occurred",
-        isDevelopment ? error.stack : undefined
+        isDevelopment ? error.stack : undefined,
       );
     }
 
@@ -163,7 +166,7 @@ export class ApiErrorHandler {
  * Wrapper function for API route handlers that automatically handles errors
  */
 export function withErrorHandling<T extends any[], R>(
-  handler: (...args: T) => Promise<R>
+  handler: (...args: T) => Promise<R>,
 ): (...args: T) => Promise<R> {
   return async (...args: T): Promise<R> => {
     try {
@@ -181,7 +184,7 @@ export function withErrorHandling<T extends any[], R>(
  * Returns a Response object with proper error formatting
  */
 export function withApiErrorHandling<T extends any[]>(
-  handler: (...args: T) => Promise<Response>
+  handler: (...args: T) => Promise<Response>,
 ): (...args: T) => Promise<Response> {
   return async (...args: T): Promise<Response> => {
     try {
@@ -220,4 +223,3 @@ export function getErrorDetails(error: unknown): {
     message: String(error),
   };
 }
-
