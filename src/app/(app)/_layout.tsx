@@ -41,7 +41,21 @@ export default function AppLayout() {
         name="grades"
         options={{
           title: "Grades",
-          tabBarIcon: () => ({ sfSymbol: "chart.bar" }),
+          tabBarIcon: () => ({ sfSymbol: "checkmark.seal.text.page" }),
+        }}
+      />
+      <Tabs.Screen
+        name="gpa"
+        options={{
+          title: "GPA",
+          tabBarIcon: () => ({ sfSymbol: "chart.bar.xaxis" }),
+        }}
+      />
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Settings",
+          tabBarIcon: () => ({ sfSymbol: "gearshape" }),
         }}
       />
     </Tabs>
