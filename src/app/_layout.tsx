@@ -26,11 +26,11 @@ function RootNavigator() {
 
   return (
     <StrictMode>
-      <StatusBar />
+      <StatusBar animated />
 
       <Stack>
         <Stack.Protected guard={!!session}>
-          <Stack.Screen name="(app)" options={{ headerShown: false }} />
+          <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
         </Stack.Protected>
 
         <Stack.Protected guard={!session}>
