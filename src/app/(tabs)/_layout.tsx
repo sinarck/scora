@@ -33,7 +33,7 @@ export default function AppLayout() {
       }}
     >
       <Tabs.Screen
-        name="index"
+        name="(home)"
         options={{
           title: "Home",
           tabBarIcon: () => ({ sfSymbol: "house" }),
