@@ -40,14 +40,14 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
-        name="grades"
+        name="(grades)"
         options={{
           title: "Grades",
           tabBarIcon: () => ({ sfSymbol: "checkmark.seal.text.page" }),
         }}
       />
       <Tabs.Screen
-        name="gpa"
+        name="(gpa)"
         options={{
           lazy: true,
           title: "GPA",
@@ -55,7 +55,7 @@ export default function AppLayout() {
         }}
       />
       <Tabs.Screen
-        name="settings"
+        name="(settings)"
         options={{
           lazy: true,
           title: "Settings",
